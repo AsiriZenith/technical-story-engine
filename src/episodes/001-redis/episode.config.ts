@@ -33,6 +33,8 @@ const fps = 30;
 
 export const redisPlannedSceneTimeline = createSceneTimeline(redisScenes, fps);
 
+const scene01Window = redisPlannedSceneTimeline[0];
+
 export const redisArchitectureIsValid = validateEpisodeArchitecture({
   scenes: redisScenes,
   assets: redisAssetManifest,
@@ -47,7 +49,7 @@ export const redisEpisodeConfig = {
   fps,
   width: 1920,
   height: 1080,
-  durationInFrames: 150,
+  durationInFrames: scene01Window.duration,
   assets: redisAssetManifest,
   scenes: redisScenes,
   plannedSceneTimeline: redisPlannedSceneTimeline,

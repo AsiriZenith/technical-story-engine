@@ -30,6 +30,7 @@
 - Run the relevant typecheck, build, composition discovery, scene/asset validation, and representative render checks before completion.
 - For visible changes, render and inspect representative frames; compilation alone is insufficient. Record focal point, readability, safe margins, alignment, correctness, pacing, hierarchy, language overflow, asset quality, and known issues.
 - Apply the Human Media Review Gate in `docs/agent-workflow.md`: rendered media may become a `candidate`, but only explicit user acceptance may mark it `approved`. End media-producing tasks with `HUMAN REVIEW: PENDING` and stop.
+- Use the standardized `Human Review Requests` and `External Asset Requests` handoff sections in `docs/agent-workflow.md`; coding agents specify external-media requirements, not final provider prompts.
 - Report only checks actually executed. Preserve user changes, avoid unrelated scope, and do not commit or push unless explicitly authorized.
 
 See `docs/production-architecture.md` and `docs/agent-workflow.md` for maintained detail. Keep `CLAUDE.md` pointing to this shared source when these rules change.

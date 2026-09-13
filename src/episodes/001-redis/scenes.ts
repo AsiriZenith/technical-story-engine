@@ -27,7 +27,7 @@ export const redisScenes = [
     order: 1,
     workingTitle: 'The Mystery',
     purpose: 'Establish the surprising latency improvement that the episode explains.',
-    durationStrategy: sharedWindow(8),
+    durationStrategy: sharedWindow(20, 2),
     assetIds: [],
     storyBeats: ['GET /users/42', 'Before Redis: 180 ms', 'After Redis: 8 ms'],
   },

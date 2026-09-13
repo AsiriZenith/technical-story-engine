@@ -39,6 +39,8 @@ public/episodes/001-redis/assets/chef-master/
 
 Set `path` only when a real file is selected, and update `status` as it moves through review. Provider notes may live in production records, but consuming components depend only on the logical ID. Do not bake localized labels into generated media when Remotion can render them.
 
+Feedback reports use the canonical handoff contracts in `docs/agent-workflow.md`. External-media requests describe the logical asset and production constraints; they do not hard-code a provider or attempt to finalize the generation prompt before human and tool-specific context is available.
+
 ## Character and restaurant planning
 
 `src/episodes/001-redis/characters.ts` records the explanatory role, required poses, likely scenes, and localization concerns for Chef/Database, Cashier/Application, Customers/Requests, Alice, and Developer. It deliberately contains no generated artwork.

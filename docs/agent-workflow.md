@@ -66,3 +66,89 @@ Asset states mean:
 - `approved`: explicitly accepted by the user. Build success or agent preference can never grant this state.
 
 When media changes, record exact artifact paths and agent QA findings, set human review to `PENDING`, and stop after the report. User feedback belongs in a subsequent task. Never silently promote a candidate to approved.
+
+## Feedback handoff contract
+
+Every task feedback report must make review and external dependencies explicit.
+
+When human review is required, add one entry per artifact:
+
+```markdown
+## Human Review Requests
+
+### Review Request 1
+
+Artifact:
+<path>
+
+Type:
+PNG / MP4 / MP3 / WAV / ...
+
+Purpose:
+...
+
+What to review:
+- ...
+
+Agent assessment:
+PASS / PASS WITH ISSUES / FAIL
+
+Known issues:
+- ...
+
+Human review status:
+PENDING
+```
+
+When no review is required, write `## Human Review Requests` followed by `None.`
+
+When external generation is required, use this complete requirement record for each logical asset:
+
+```markdown
+## External Asset Requests
+
+### Asset Request 1
+
+Asset ID:
+...
+
+Why needed:
+...
+
+Preferred type:
+PNG / MP4 / WAV / ...
+
+Dimensions / duration:
+...
+
+Composition requirements:
+...
+
+Character requirements:
+...
+
+Visual-style constraints:
+...
+
+Motion requirements:
+...
+
+Localization constraints:
+...
+
+Transparent background:
+YES / NO
+
+Audio:
+...
+
+Integration target:
+...
+
+Status:
+NEEDS EXTERNAL GENERATION
+```
+
+When none is required, write `## External Asset Requests` followed by `None.`
+
+The coding agent supplies requirements, not the final provider prompt. A later prompt should combine those requirements with the storyboard, human review, channel direction, and the chosen tool's capabilities.

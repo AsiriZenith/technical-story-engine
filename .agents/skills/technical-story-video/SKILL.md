@@ -33,6 +33,7 @@ real-world metaphor -> explicit visual mapping -> technical model
 - Use humor sparingly: explain -> tiny joke -> continue.
 - Keep prototypes in DEV compositions until the task authorizes production-scene work.
 - Treat rendered media as pending human review. Only explicit user acceptance can mark an asset approved.
+- Use the canonical feedback handoff in `docs/agent-workflow.md`: enumerate human-review artifacts and external-asset requirements, or state `None.` explicitly. Provide external-media requirements, not final provider prompts.
 
 ## Completion
 
