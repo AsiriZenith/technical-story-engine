@@ -7,7 +7,7 @@ TASK file
   -> agent implementation
   -> validation
   -> feedbacks/task-XXX-feedback.md
-  -> human/ChatGPT review
+  -> human review
   -> next TASK
 ```
 
@@ -49,3 +49,20 @@ Visual QA
 Inspect focal point, text readability, safe margins, alignment, technical correctness, motion pacing, visual hierarchy, language overflow, and asset quality. Select frames that expose the changed states, not only frame zero. This is an informed human/agent review checklist, not automated visual scoring.
 
 For a quick playground loop, run `npm run dev:still`, inspect `renders/dev-typography.png`, revise, and repeat. Use a direct `remotion still` command when another DEV composition or frame is more representative.
+
+## Human Media Review Gate
+
+Technical success and human acceptance are separate states for user-facing `.png`, `.jpg`, `.webp`, `.mp4`, `.mov`, `.wav`, and `.mp3` outputs.
+
+```text
+implement -> render/export -> agent QA -> feedback report
+-> HUMAN REVIEW: PENDING -> stop -> user review -> later revision or approval
+```
+
+Asset states mean:
+
+- `placeholder`: temporary development material, not ready for approval.
+- `candidate`: generated or rendered media ready for human review.
+- `approved`: explicitly accepted by the user. Build success or agent preference can never grant this state.
+
+When media changes, record exact artifact paths and agent QA findings, set human review to `PENDING`, and stop after the report. User feedback belongs in a subsequent task. Never silently promote a candidate to approved.

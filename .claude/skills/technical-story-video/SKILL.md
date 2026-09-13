@@ -14,7 +14,7 @@ Move from source material to a reviewed video deliberately:
 ```text
 source material -> core technical thesis -> video narrative -> narration
 -> storyboard -> visual metaphor -> technical representation
--> implementation -> render -> director review -> revision
+-> implementation -> render -> agent review -> human review -> revision
 ```
 
 At each step preserve the active task's scope. State the single technical thesis, remove details that do not support it, and make each scene earn its place. Use real-world metaphor only when it maps clearly to the engineering model:
@@ -32,7 +32,8 @@ real-world metaphor -> explicit visual mapping -> technical model
 - Consume external media through logical asset IDs, never provider-specific components.
 - Use humor sparingly: explain -> tiny joke -> continue.
 - Keep prototypes in DEV compositions until the task authorizes production-scene work.
+- Treat rendered media as pending human review. Only explicit user acceptance can mark an asset approved.
 
 ## Completion
 
-Run the checks relevant to the change. For visible work, render and inspect representative frames using the checklist in `docs/agent-workflow.md`. Record real results and known issues in the active task's feedback report, then stop rather than beginning the next task.
+Run the checks relevant to the change. For visible work, render and inspect representative frames using the checklist and Human Media Review Gate in `docs/agent-workflow.md`. Record real results and known issues, state `HUMAN REVIEW: PENDING`, and stop rather than beginning the next task.

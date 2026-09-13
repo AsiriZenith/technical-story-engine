@@ -13,6 +13,25 @@ export const DevRoot: React.FC = () => (
       fps={30}
       width={1920}
       height={1080}
+      defaultProps={{language: 'en'}}
+    />
+    <Composition
+      id="DEV-Typography-DE"
+      component={DevTypography}
+      durationInFrames={150}
+      fps={30}
+      width={1920}
+      height={1080}
+      defaultProps={{language: 'de'}}
+    />
+    <Composition
+      id="DEV-Typography-FR"
+      component={DevTypography}
+      durationInFrames={150}
+      fps={30}
+      width={1920}
+      height={1080}
+      defaultProps={{language: 'fr'}}
     />
     <Composition
       id="DEV-ArchitectureNodes"
@@ -37,7 +56,7 @@ export const DevRoot: React.FC = () => (
       fps={30}
       width={1920}
       height={1080}
-      defaultProps={{assetId: 'restaurantBackground'}}
+      defaultProps={{assetId: 'chefNeutral'}}
     />
   </>
 );

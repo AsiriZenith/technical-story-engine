@@ -39,6 +39,25 @@ export const validateEpisodeArchitecture = ({
   });
 
   const validAssetIds = new Set(assets.map((asset) => asset.id));
+  for (const asset of assets) {
+    const candidateIds = asset.candidates?.map((candidate) => candidate.id) ?? [];
+    assertUnique(candidateIds, `Candidate IDs for ${asset.id}`);
+
+    if (asset.selectedCandidateId && !candidateIds.includes(asset.selectedCandidateId)) {
+      throw new Error(`Asset ${asset.id} selects unknown candidate ${asset.selectedCandidateId}.`);
+    }
+
+    if (asset.status === 'approved' && asset.humanApproval.approvedBy !== 'user') {
+      throw new Error(`Approved asset ${asset.id} requires explicit user approval.`);
+    }
+
+    for (const candidate of asset.candidates ?? []) {
+      if (candidate.status === 'approved' && candidate.humanApproval.approvedBy !== 'user') {
+        throw new Error(`Approved candidate ${candidate.id} requires explicit user approval.`);
+      }
+    }
+  }
+
   for (const scene of scenes) {
     for (const assetId of scene.assetIds) {
       if (!validAssetIds.has(assetId)) {

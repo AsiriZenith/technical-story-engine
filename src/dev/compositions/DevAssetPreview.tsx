@@ -1,23 +1,72 @@
 import {AbsoluteFill, Img, staticFile} from 'remotion';
-import {redisAssetManifest, type RedisAssetId} from '../../episodes/001-redis/assets';
+import {
+  listAssetCandidates,
+  resolveAsset,
+  type ResolvedAsset,
+} from '../../episodes/001-redis/asset-resolver';
+import type {RedisAssetId} from '../../episodes/001-redis/assets';
 import {theme} from '../../shared/styles/theme';
+import {layout, provisionalColors, typography} from '../../shared/styles/visual-system';
 
 export type DevAssetPreviewProps = {
   assetId: RedisAssetId;
 };
 
 const statusColor = {
-  placeholder: '#718096',
-  candidate: '#d69e2e',
-  approved: '#1e9b63',
+  placeholder: provisionalColors.placeholder,
+  candidate: provisionalColors.warning,
+  approved: provisionalColors.success,
 } as const;
 
-export const DevAssetPreview: React.FC<DevAssetPreviewProps> = ({assetId}) => {
-  const asset = redisAssetManifest.find((entry) => entry.id === assetId);
+const dimensionsLabel = (asset: ResolvedAsset): string =>
+  asset.dimensions ? `${asset.dimensions.width} × ${asset.dimensions.height}` : 'not available';
 
-  if (!asset) {
-    throw new Error(`Unknown asset ID: ${assetId}`);
-  }
+const aspectLabel = (asset: ResolvedAsset): string =>
+  asset.aspectRatio ? asset.aspectRatio.toFixed(2) : 'not available';
+
+const PreviewSurface: React.FC<{asset: ResolvedAsset}> = ({asset}) => (
+  <div
+    style={{
+      alignItems: 'center',
+      backgroundColor: '#d9e0e8',
+      backgroundImage: 'conic-gradient(#fff 25%, #d9e0e8 0 50%, #fff 0 75%, #d9e0e8 0)',
+      backgroundSize: '42px 42px',
+      borderRadius: 22,
+      display: 'flex',
+      height: 500,
+      justifyContent: 'center',
+      overflow: 'hidden',
+      width: 940,
+    }}
+  >
+    {asset.path && asset.type === 'image' ? (
+      <Img
+        name="Selected manifest image"
+        src={staticFile(asset.path)}
+        style={{height: '100%', objectFit: 'contain', width: '100%'}}
+      />
+    ) : (
+      <div
+        style={{
+          backgroundColor: 'rgba(8, 17, 31, 0.9)',
+          borderRadius: 18,
+          color: theme.foreground,
+          padding: '30px 38px',
+          textAlign: 'center',
+        }}
+      >
+        <div style={{...typography.sectionHeading}}>{asset.candidateName}</div>
+        <div style={{color: theme.muted, marginTop: 12, ...typography.caption}}>
+          {asset.type === 'video' ? 'VIDEO PREVIEW CONTRACT' : 'PLACEHOLDER PREVIEW SLOT'}
+        </div>
+      </div>
+    )}
+  </div>
+);
+
+export const DevAssetPreview: React.FC<DevAssetPreviewProps> = ({assetId}) => {
+  const selected = resolveAsset(assetId);
+  const candidates = listAssetCandidates(assetId);
 
   return (
     <AbsoluteFill
@@ -25,84 +74,78 @@ export const DevAssetPreview: React.FC<DevAssetPreviewProps> = ({assetId}) => {
         backgroundColor: theme.background,
         color: theme.foreground,
         fontFamily: theme.fontFamily,
-        padding: '90px 120px',
+        padding: `${layout.safeVertical}px ${layout.safeHorizontal}px`,
       }}
     >
-      <div style={{display: 'flex', justifyContent: 'space-between'}}>
+      <div style={{alignItems: 'start', display: 'flex', justifyContent: 'space-between'}}>
         <div>
-          <div style={{color: theme.accent, fontSize: 24, fontWeight: 800, letterSpacing: 5}}>
-            DEV / ASSET PREVIEW
-          </div>
-          <div style={{fontSize: 58, fontWeight: 750, marginTop: 24}}>{asset.id}</div>
+          <div style={{color: theme.accent, ...typography.technicalLabel}}>DEV / ASSET REVIEW</div>
+          <div style={{marginTop: 18, ...typography.sceneTitle}}>{selected.id}</div>
         </div>
         <div
           style={{
-            alignSelf: 'flex-start',
-            backgroundColor: statusColor[asset.status],
+            backgroundColor: statusColor[selected.status],
             borderRadius: 999,
-            fontSize: 25,
-            fontWeight: 800,
-            letterSpacing: 2,
-            padding: '15px 24px',
+            padding: '14px 22px',
             textTransform: 'uppercase',
+            ...typography.status,
           }}
         >
-          {asset.status}
+          {selected.status}
         </div>
       </div>
-      <div style={{display: 'flex', gap: 56, marginTop: 55}}>
-        <div
-          style={{
-            alignItems: 'center',
-            backgroundColor: '#d9e0e8',
-            backgroundImage:
-              'conic-gradient(#ffffff 25%, #d9e0e8 0 50%, #ffffff 0 75%, #d9e0e8 0)',
-            backgroundSize: '44px 44px',
-            borderRadius: 24,
-            display: 'flex',
-            height: 610,
-            justifyContent: 'center',
-            overflow: 'hidden',
-            width: 1080,
-          }}
-        >
-          {asset.path && asset.type === 'image' ? (
-            <Img
-              name="Manifest image"
-              src={staticFile(asset.path)}
-              style={{height: '100%', objectFit: 'contain', width: '100%'}}
-            />
-          ) : (
-            <div
-              style={{
-                backgroundColor: 'rgba(8, 17, 31, 0.88)',
-                borderRadius: 18,
-                color: theme.foreground,
-                fontSize: 34,
-                fontWeight: 700,
-                padding: '30px 38px',
-                textAlign: 'center',
-              }}
-            >
-              {asset.type === 'video' ? 'VIDEO CONTRACT READY' : 'NO IMAGE SELECTED'}
-            </div>
-          )}
-        </div>
-        <div style={{fontSize: 28, lineHeight: 1.55, width: 500}}>
-          <div style={{color: theme.muted, fontSize: 20, fontWeight: 800, letterSpacing: 3}}>
-            LOGICAL ASSET
-          </div>
-          <div style={{marginTop: 18}}>{asset.description}</div>
-          <div style={{borderTop: '2px solid #233650', marginTop: 35, paddingTop: 28}}>
-            <strong>Type:</strong> {asset.type}
+
+      <div style={{display: 'flex', gap: layout.diagramGutter, marginTop: 42}}>
+        <PreviewSurface asset={selected} />
+        <div style={{width: 590}}>
+          <div style={{color: theme.muted, ...typography.technicalLabel}}>SELECTED CANDIDATE</div>
+          <div style={{fontSize: 42, fontWeight: 750, marginTop: 14}}>{selected.candidateName}</div>
+          <div style={{marginTop: 24, ...typography.caption}}>{selected.description}</div>
+          <div
+            style={{
+              borderTop: `2px solid ${provisionalColors.line}`,
+              marginTop: 26,
+              paddingTop: 22,
+              ...typography.caption,
+            }}
+          >
+            Type: {selected.type}
             <br />
-            <strong>Optional:</strong> {asset.optional ? 'yes' : 'no'}
+            Path: {selected.path ?? 'not selected'}
             <br />
-            <strong>Path:</strong> {asset.path ?? 'not selected'}
+            Dimensions: {dimensionsLabel(selected)}
+            <br />
+            Aspect ratio: {aspectLabel(selected)}
           </div>
-          <div style={{color: theme.muted, fontSize: 23, marginTop: 36}}>
-            Image previews use contain sizing over a transparency grid. Video entries expose the same
-            provider-independent contract until a real clip is selected.
+          <div style={{color: theme.muted, marginTop: 26, ...typography.technicalLabel}}>
+            AVAILABLE VARIANTS
+          </div>
+          <div style={{display: 'flex', flexDirection: 'column', gap: 10, marginTop: 14}}>
+            {(candidates.length > 0 ? candidates : [selected]).map((candidate) => (
+              <div
+                key={candidate.candidateId ?? 'manifest-default'}
+                style={{
+                  alignItems: 'center',
+                  backgroundColor: candidate.selected
+                    ? provisionalColors.panelRaised
+                    : provisionalColors.panel,
+                  border: `2px ${candidate.selected ? 'solid' : 'dashed'} ${
+                    candidate.selected ? theme.foreground : provisionalColors.line
+                  }`,
+                  borderRadius: 12,
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  padding: '12px 15px',
+                  ...typography.caption,
+                }}
+              >
+                <span>{candidate.candidateName}</span>
+                <span style={{color: statusColor[candidate.status], fontWeight: 800}}>
+                  {candidate.selected ? 'SELECTED · ' : ''}
+                  {candidate.status.toUpperCase()}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </div>

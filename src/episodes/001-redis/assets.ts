@@ -4,13 +4,34 @@ export type AssetStatus = (typeof assetStatuses)[number];
 export const assetTypes = ['image', 'video'] as const;
 export type AssetType = (typeof assetTypes)[number];
 
-export type AssetManifestEntry = {
+export type AssetDimensions = {
+  width: number;
+  height: number;
+};
+
+export type HumanApproval = {
+  approvedBy: 'user';
+  approvedAt: string;
+};
+
+export type AssetReviewState =
+  | {status: 'placeholder'; path: string | null; humanApproval?: never}
+  | {status: 'candidate'; path: string; humanApproval?: never}
+  | {status: 'approved'; path: string; humanApproval: HumanApproval};
+
+export type AssetCandidate = AssetReviewState & {
+  id: string;
+  name: string;
+  dimensions: AssetDimensions | null;
+};
+
+export type AssetManifestEntry = AssetReviewState & {
   id: string;
   type: AssetType;
-  path: string | null;
   optional: boolean;
-  status: AssetStatus;
   description: string;
+  candidates?: readonly AssetCandidate[];
+  selectedCandidateId?: string | null;
 };
 
 export const redisAssetManifest = [
@@ -29,6 +50,23 @@ export const redisAssetManifest = [
     optional: false,
     status: 'placeholder',
     description: 'Chef/database character in a neutral pose.',
+    selectedCandidateId: 'pose-study-a',
+    candidates: [
+      {
+        id: 'pose-study-a',
+        name: 'Pose study A',
+        status: 'placeholder',
+        path: null,
+        dimensions: null,
+      },
+      {
+        id: 'pose-study-b',
+        name: 'Pose study B',
+        status: 'placeholder',
+        path: null,
+        dimensions: null,
+      },
+    ],
   },
   {
     id: 'chefWorking',

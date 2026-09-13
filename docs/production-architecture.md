@@ -28,7 +28,7 @@ The final delivery remains one YouTube video with English original audio plus Ge
 
 `src/episodes/001-redis/assets.ts` maps stable logical IDs to media type, current public path, optionality, status, and purpose. A consuming scene asks for an ID such as `readyShelf` or `restaurantGeneratedClip`; it does not name the tool that created the file. Replacing a generated clip, export, or manual illustration therefore updates the manifest rather than the scene architecture.
 
-Statuses are `placeholder`, `candidate`, and `approved`. While comparing files, use a version-control-friendly directory such as:
+Statuses are `placeholder`, `candidate`, and `approved`. `Candidate` means ready for human review; `approved` requires explicit user acceptance and approval metadata. A successful render or agent QA cannot approve media. While comparing files, use a version-control-friendly directory such as:
 
 ```text
 public/episodes/001-redis/assets/chef-master/
