@@ -21,6 +21,14 @@ import {
 
 export type Scene01MysteryProps = {
   language: Language;
+  // Scene-local duration for the dev "Scene 01 · Ns" caption. Falls back to
+  // the composition's own duration for standalone rendering; a scene embedded
+  // via <Sequence> must pass its own window's duration, since useVideoConfig()
+  // reports the whole composition length, not this sequence's local length.
+  durationInFrames?: number;
+  // Shows the development scene-duration caption. Production compositions
+  // must never pass this; only DEV compositions should opt in.
+  debug?: boolean;
 };
 
 const beats = {
@@ -226,9 +234,14 @@ const SceneNode: React.FC<{
   );
 };
 
-export const Scene01Mystery: React.FC<Scene01MysteryProps> = ({language}) => {
+export const Scene01Mystery: React.FC<Scene01MysteryProps> = ({
+  language,
+  durationInFrames,
+  debug = false,
+}) => {
   const frame = useCurrentFrame();
-  const {fps, durationInFrames} = useVideoConfig();
+  const {fps, durationInFrames: compositionDurationInFrames} = useVideoConfig();
+  const sceneDurationInFrames = durationInFrames ?? compositionDurationInFrames;
   const seconds = frame / fps;
   const architectureOpacity = interpolate(
     seconds,
@@ -599,18 +612,20 @@ export const Scene01Mystery: React.FC<Scene01MysteryProps> = ({language}) => {
         </div>
       </Interactive.Div>
 
-      <div
-        style={{
-          bottom: 28,
-          color: theme.muted,
-          fontSize: 18,
-          left: layout.safeHorizontal,
-          opacity: 0.55,
-          position: 'absolute',
-        }}
-      >
-        Scene 01 · {Math.round(durationInFrames / fps)}s
-      </div>
+      {debug ? (
+        <div
+          style={{
+            bottom: 28,
+            color: theme.muted,
+            fontSize: 18,
+            left: layout.safeHorizontal,
+            opacity: 0.55,
+            position: 'absolute',
+          }}
+        >
+          Scene 01 · {Math.round(sceneDurationInFrames / fps)}s
+        </div>
+      ) : null}
     </AbsoluteFill>
   );
 };
