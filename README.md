@@ -41,6 +41,8 @@ The typed 14-scene outline, shared-window timing model, replaceable asset manife
 
 The official `remotion-dev/skills` pack is installed project-locally. Canonical skill files are in `.agents/skills/` for Codex and other agents; Claude Code discovery links are in `.claude/skills/`. `skills-lock.json` records the source and hashes. Restore the same project setup on another machine with `npx skills experimental_install`.
 
+Project operating rules live in `AGENTS.md`, with `CLAUDE.md` pointing to the same source of truth. See [Agent workflow](docs/agent-workflow.md) for task handoffs, model escalation, validation, custom-skill synchronization, and visual QA.
+
 ## External assets
 
 Illustrations, Canva exports, generated clips, TTS, music, and sound effects are replaceable inputs. Keep provider-specific generation outside the runtime. Reference media by stable paths held in episode configuration so a replacement usually requires a file or path change, not a scene rewrite. Avoid baking narration or localized text into visual clips when the visual can be shared across languages.

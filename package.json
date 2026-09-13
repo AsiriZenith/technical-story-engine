@@ -8,6 +8,7 @@
     "typecheck": "tsc --noEmit",
     "validate:architecture": "remotion compositions src/index.ts",
     "compositions": "remotion compositions src/index.ts",
+    "dev:still": "remotion still src/index.ts DEV-Typography renders/dev-typography.png --frame=60",
     "build": "npm run typecheck && remotion bundle src/index.ts build",
     "render:en": "remotion render src/index.ts Redis-EN renders/001-redis-en.mp4",
     "render:de": "remotion render src/index.ts Redis-DE renders/001-redis-de.mp4",
