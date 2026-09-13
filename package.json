@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "remotion studio src/index.ts",
     "typecheck": "tsc --noEmit",
+    "validate:architecture": "remotion compositions src/index.ts",
     "compositions": "remotion compositions src/index.ts",
     "build": "npm run typecheck && remotion bundle src/index.ts build",
     "render:en": "remotion render src/index.ts Redis-EN renders/001-redis-en.mp4",

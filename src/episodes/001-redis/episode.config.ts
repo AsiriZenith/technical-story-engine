@@ -3,10 +3,11 @@ import {
   supportedLanguages,
   type Language,
 } from '../../shared/localization';
-
-export type EpisodeAssetPaths = {
-  restaurantClip?: string;
-};
+import {createSceneTimeline, type SceneWindow} from '../../shared/timing/scene-timing';
+import {redisAssetManifest, type AssetManifestEntry} from './assets';
+import {redisCharacterPlan, type CharacterPlan} from './characters';
+import {redisScenes, type RedisSceneDefinition, type RedisSceneId} from './scenes';
+import {validateEpisodeArchitecture} from './validation';
 
 export type EpisodeTrackPaths = Partial<Record<Language, string>>;
 
@@ -19,25 +20,39 @@ export type EpisodeConfig = {
   width: number;
   height: number;
   durationInFrames: number;
-  assets: EpisodeAssetPaths;
+  assets: readonly AssetManifestEntry[];
+  scenes: readonly RedisSceneDefinition[];
+  plannedSceneTimeline: readonly SceneWindow<RedisSceneId>[];
+  characters: readonly CharacterPlan[];
   narrationTracks: EpisodeTrackPaths;
   captionTracks: EpisodeTrackPaths;
   metadata: Record<string, string>;
-  sceneTiming: readonly {id: string; from: number; durationInFrames: number}[];
 };
+
+const fps = 30;
+
+export const redisPlannedSceneTimeline = createSceneTimeline(redisScenes, fps);
+
+export const redisArchitectureIsValid = validateEpisodeArchitecture({
+  scenes: redisScenes,
+  assets: redisAssetManifest,
+  languages: supportedLanguages,
+});
 
 export const redisEpisodeConfig = {
   id: '001-redis',
   title: 'Why Your API Gets Faster After Adding Redis',
   primaryLanguage: defaultLanguage,
   languages: supportedLanguages,
-  fps: 30,
+  fps,
   width: 1920,
   height: 1080,
   durationInFrames: 150,
-  assets: {},
+  assets: redisAssetManifest,
+  scenes: redisScenes,
+  plannedSceneTimeline: redisPlannedSceneTimeline,
+  characters: redisCharacterPlan,
   narrationTracks: {},
   captionTracks: {},
   metadata: {},
-  sceneTiming: [{id: 'placeholder', from: 0, durationInFrames: 150}],
 } as const satisfies EpisodeConfig;

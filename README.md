@@ -35,6 +35,12 @@ The render scripts write to `renders/`, which is intentionally ignored by Git ex
 
 The first episode is `001-redis`. `Redis-EN`, `Redis-DE`, and `Redis-FR` are development compositions that pass different language props to one `RedisEpisode` implementation. English (`en`) is the primary and fallback language; German (`de`) and French (`fr`) demonstrate the localization path.
 
+The typed 14-scene outline, shared-window timing model, replaceable asset manifest, and character plan are described in [Production architecture](docs/production-architecture.md). The registered compositions intentionally remain five-second placeholders until production scenes and narration timing are implemented.
+
+## Agent skills
+
+The official `remotion-dev/skills` pack is installed project-locally. Canonical skill files are in `.agents/skills/` for Codex and other agents; Claude Code discovery links are in `.claude/skills/`. `skills-lock.json` records the source and hashes. Restore the same project setup on another machine with `npx skills experimental_install`.
+
 ## External assets
 
 Illustrations, Canva exports, generated clips, TTS, music, and sound effects are replaceable inputs. Keep provider-specific generation outside the runtime. Reference media by stable paths held in episode configuration so a replacement usually requires a file or path change, not a scene rewrite. Avoid baking narration or localized text into visual clips when the visual can be shared across languages.
