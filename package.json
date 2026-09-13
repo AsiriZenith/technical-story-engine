@@ -1,0 +1,26 @@
+{
+  "name": "technical-story-engine",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Reusable Remotion engine for localized technical-explainer videos",
+  "scripts": {
+    "dev": "remotion studio src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "compositions": "remotion compositions src/index.ts",
+    "build": "npm run typecheck && remotion bundle src/index.ts build",
+    "render:en": "remotion render src/index.ts Redis-EN renders/001-redis-en.mp4",
+    "render:de": "remotion render src/index.ts Redis-DE renders/001-redis-de.mp4",
+    "render:fr": "remotion render src/index.ts Redis-FR renders/001-redis-fr.mp4"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.524",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "remotion": "4.0.524"
+  },
+  "devDependencies": {
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "typescript": "7.0.2"
+  }
+}

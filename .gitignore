@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+
+# Remotion and build output
+build/
+out/
+renders/*
+!renders/.gitkeep
+.remotion/
+.remotion-cache/
+
+# Large generated video and temporary media
+*.mp4
+*.mov
+*.webm
+*.mkv
+*.tmp.wav
+*.tmp.mp3
+public/episodes/**/audio/generated-temp/
+
+# Local caches and temporary files
+.npm-cache/
+.cache/
+coverage/
+*.log
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+*.local
