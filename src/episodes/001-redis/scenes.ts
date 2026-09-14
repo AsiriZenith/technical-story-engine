@@ -54,10 +54,19 @@ export const redisScenes = [
     order: 3,
     workingTitle: 'The Misconception',
     purpose: 'Reject the idea that Redis directly makes the database query faster.',
-    durationStrategy: sharedWindow(8),
-    assetIds: ['chefNeutral'],
-    storyBeats: ['Did Redis make the database 20x faster?', 'NOT THIS'],
-    visualNotes: ['Optional brief gym-coach joke beside the database.'],
+    durationStrategy: sharedWindow(13, 1),
+    assetIds: ['scene03JokeDiagram', 'scene03EndDiagram'],
+    storyBeats: [
+      'Database work: 155 ms',
+      'Did Redis make the database 20x faster?',
+      'NOT THIS',
+      'The repeated work changed.',
+      "The database didn't become faster. We stopped repeating some of the work.",
+    ],
+    visualNotes: [
+      'Both diagram beats are user-supplied PNG assets rendered exactly as supplied. Do not redraw, reinterpret, or substitute them.',
+      'The two diagrams carry baked English labels, so their visible windows must not overlap and localized copy is added around them rather than over them.',
+    ],
   },
   {
     id: '04-original-request-path',

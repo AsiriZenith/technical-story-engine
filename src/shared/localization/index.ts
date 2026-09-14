@@ -29,6 +29,8 @@ const messages = {
     serialization: 'Serialization',
     other: 'Other',
     latencyTakeaway: 'Most of the time is spent doing database work.',
+    misconceptionQuestion: 'So Redis made the database faster?',
+    stoppedRepeatingWork: 'We stopped repeating some of the work.',
   },
   de: {
     episodeNumber: 'VIDEO #001',
@@ -54,6 +56,8 @@ const messages = {
     serialization: 'Serialisierung',
     other: 'Sonstiges',
     latencyTakeaway: 'Der größte Teil der Zeit entfällt auf Datenbankarbeit.',
+    misconceptionQuestion: 'Hat Redis also die Datenbank schneller gemacht?',
+    stoppedRepeatingWork: 'Wir wiederholen einen Teil der Arbeit nicht mehr.',
   },
   fr: {
     episodeNumber: 'VIDÉO N° 001',
@@ -79,6 +83,8 @@ const messages = {
     serialization: 'Sérialisation',
     other: 'Autre',
     latencyTakeaway: 'La majeure partie du temps est consacrée au travail de la base de données.',
+    misconceptionQuestion: 'Redis a donc rendu la base plus rapide ?',
+    stoppedRepeatingWork: 'Nous avons arrêté de répéter une partie du travail.',
   },
 } as const;
 

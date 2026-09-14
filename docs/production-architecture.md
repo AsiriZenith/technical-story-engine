@@ -41,6 +41,8 @@ Set `path` only when a real file is selected, and update `status` as it moves th
 
 Feedback reports use the canonical handoff contracts in `docs/agent-workflow.md`. External-media requests describe the logical asset and production constraints; they do not hard-code a provider or attempt to finalize the generation prompt before human and tool-specific context is available.
 
+Only final production assets — user-generated, user-approved, manually placed — belong in this manifest with a real `path` and `candidate`/`approved` status. Reference-only material (used to guide a scene's design but never meant to render) stays outside the manifest, for example under `public/episodes/001-redis/reference/`, so it is never mistaken for something a scene should import. `docs/manual-asset-workflow.md` defines this distinction and the workflow around it in full.
+
 ## Character and restaurant planning
 
 `src/episodes/001-redis/characters.ts` records the explanatory role, required poses, likely scenes, and localization concerns for Chef/Database, Cashier/Application, Customers/Requests, Alice, and Developer. It deliberately contains no generated artwork.

@@ -49,4 +49,6 @@ Project operating rules live in `AGENTS.md`, with `CLAUDE.md` pointing to the sa
 
 Illustrations, Canva exports, generated clips, TTS, music, and sound effects are replaceable inputs. Keep provider-specific generation outside the runtime. Reference media by stable paths held in episode configuration so a replacement usually requires a file or path change, not a scene rewrite. Avoid baking narration or localized text into visual clips when the visual can be shared across languages.
 
+For scene-specific visuals where precision matters, the user generates, reviews, and manually places the asset before the agent uses it in a scene, exactly as supplied. See [Manual asset workflow](docs/manual-asset-workflow.md).
+
 Future language-specific audio belongs under `public/episodes/<episode-id>/audio/narration/<language>/`; shared episode music and sound effects belong beside `narration/` under `audio/`. Captions, narration manifests, and publishing metadata belong in the matching source episode directories.

@@ -1,8 +1,9 @@
 import {Sequence} from 'remotion';
 import type {Language} from '../../shared/localization';
-import {scene01Window, scene02Window} from './episode.config';
+import {scene01Window, scene02Window, scene03Window} from './episode.config';
 import {Scene01Mystery} from './scenes/Scene01Mystery';
 import {Scene02LatencyBreakdown} from './scenes/Scene02LatencyBreakdown';
+import {Scene03DatabaseMisconception} from './scenes/Scene03DatabaseMisconception';
 
 export type RedisEpisodeProps = {
   language: Language;
@@ -24,6 +25,16 @@ export const RedisEpisode: React.FC<RedisEpisodeProps> = ({language}) => {
         durationInFrames={scene02Window.duration}
       >
         <Scene02LatencyBreakdown language={language} durationInFrames={scene02Window.duration} />
+      </Sequence>
+      <Sequence
+        name="Scene 03 — The Misconception"
+        from={scene03Window.start}
+        durationInFrames={scene03Window.duration}
+      >
+        <Scene03DatabaseMisconception
+          language={language}
+          durationInFrames={scene03Window.duration}
+        />
       </Sequence>
     </>
   );

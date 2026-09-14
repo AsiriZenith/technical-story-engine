@@ -67,6 +67,25 @@ Asset states mean:
 
 When media changes, record exact artifact paths and agent QA findings, set human review to `PENDING`, and stop after the report. User feedback belongs in a subsequent task. Never silently promote a candidate to approved.
 
+## Manual asset inputs
+
+Scene-specific visuals where precision matters (a key joke beat, a core
+explanatory diagram, a dense infographic) are generated and approved by the
+user, then manually added to the repository, before the agent builds them
+into a scene — the agent does not reinterpret or recreate them. The full
+policy, the reference-only vs. final-production distinction, and the reusable
+task-authoring template live in `docs/manual-asset-workflow.md`.
+
+The stop condition that follows from it: if a task depends on a final
+production asset that is not yet present in the repository, stop the
+dependent implementation, document exactly what is missing, and wait for the
+user to add it rather than substituting an agent-generated approximation.
+
+This is stricter than, and separate from, the `External Asset Requests`
+handoff below, which remains the right contract for genuinely replaceable
+media (illustrations, generated clips, TTS, music) where the exact result is
+not precision-critical.
+
 ## Feedback handoff contract
 
 Every task feedback report must make review and external dependencies explicit.

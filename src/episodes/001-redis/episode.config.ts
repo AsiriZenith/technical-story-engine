@@ -37,6 +37,7 @@ export const redisPlannedSceneTimeline = createSceneTimeline(redisScenes, fps);
 // <Sequence> at the right offset without duplicating the timeline math.
 export const scene01Window = redisPlannedSceneTimeline[0];
 export const scene02Window = redisPlannedSceneTimeline[1];
+export const scene03Window = redisPlannedSceneTimeline[2];
 
 export const redisArchitectureIsValid = validateEpisodeArchitecture({
   scenes: redisScenes,
@@ -52,7 +53,8 @@ export const redisEpisodeConfig = {
   fps,
   width: 1920,
   height: 1080,
-  durationInFrames: scene01Window.duration + scene02Window.duration,
+  durationInFrames:
+    scene01Window.duration + scene02Window.duration + scene03Window.duration,
   assets: redisAssetManifest,
   scenes: redisScenes,
   plannedSceneTimeline: redisPlannedSceneTimeline,

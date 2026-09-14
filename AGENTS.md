@@ -24,6 +24,7 @@
 - Technical clarity outranks visual novelty. Give each scene one focal idea and prefer simple visuals, purposeful motion, and one technical insight.
 - Use analogies to teach: real-world metaphor -> explicit mapping -> technical model.
 - Humor is brief seasoning: explain -> tiny visual joke -> continue. Never let a joke weaken a central explanation.
+- For scene-specific visuals where precision matters (a key joke beat, a core explanatory diagram, a dense infographic), the user generates and approves the asset first and manually adds it to the repository; the agent then uses that exact asset rather than redrawing or reinterpreting it. Follow `docs/manual-asset-workflow.md`, which also defines the reference-only vs. final-production distinction and the stop condition when a required asset is not yet present.
 
 ## Validation and review
 
