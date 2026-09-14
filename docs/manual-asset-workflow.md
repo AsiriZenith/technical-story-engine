@@ -96,10 +96,9 @@ Already reviewed and approved by the user for direct use. Must be rendered
 exactly as supplied unless the task explicitly instructs otherwise. Registered
 in the episode's asset manifest (`src/episodes/001-redis/assets.ts`) with a
 real `path`, consumed by scenes through a manifest lookup by logical ID,
-never by a scene hard-coding a file path. (`src/episodes/001-redis/asset-resolver.ts`
-holds the episode's existing `resolveAsset()` lookup; TASK-008 added a second,
-narrower helper for this — see that task's feedback for the note that these
-should converge on one resolver.)
+never by a scene hard-coding a file path.
+`src/episodes/001-redis/asset-resolver.ts` holds the episode's canonical
+`resolveAsset()` lookup.
 
 In the `001-redis` episode, `public/episodes/001-redis/assets/scene-03-joke-diagram.png`
 and `scene-03-end-diagram.png` are final production assets.

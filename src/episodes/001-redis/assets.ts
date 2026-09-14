@@ -161,7 +161,11 @@ export const redisAssetManifest = [
     type: 'image',
     path: 'episodes/001-redis/assets/scene-03-joke-diagram.png',
     optional: false,
-    status: 'candidate',
+    status: 'approved',
+    humanApproval: {
+      approvedBy: 'user',
+      approvedAt: '2026-09-14',
+    },
     description:
       'User-supplied Scene 03 misconception diagram. Rendered exactly as supplied; never redrawn or reinterpreted. Contains baked English labels.',
   },
@@ -170,22 +174,27 @@ export const redisAssetManifest = [
     type: 'image',
     path: 'episodes/001-redis/assets/scene-03-end-diagram.png',
     optional: false,
-    status: 'candidate',
+    status: 'approved',
+    humanApproval: {
+      approvedBy: 'user',
+      approvedAt: '2026-09-14',
+    },
     description:
       'User-supplied Scene 03 repeated-work payoff diagram. Rendered exactly as supplied; never redrawn or reinterpreted. Contains baked English labels.',
+  },
+  {
+    id: 'scene04OriginalRequestPath',
+    type: 'image',
+    path: 'episodes/001-redis/assets/scene-04-original-request-path.jpg',
+    optional: false,
+    status: 'approved',
+    humanApproval: {
+      approvedBy: 'user',
+      approvedAt: '2026-09-14',
+    },
+    description:
+      'User-supplied Scene 04 original request path diagram. Rendered directly as supplied; never redrawn or reinterpreted. Contains baked English labels.',
   },
 ] as const satisfies readonly AssetManifestEntry[];
 
 export type RedisAssetId = (typeof redisAssetManifest)[number]['id'];
-
-// Scenes ask for a logical asset ID and receive a `staticFile`-relative path, so
-// replacing the underlying file never reaches scene code.
-export const getAssetPath = (id: RedisAssetId): string => {
-  const asset = redisAssetManifest.find((entry) => entry.id === id);
-
-  if (!asset?.path) {
-    throw new Error(`Asset ${id} has no file selected yet.`);
-  }
-
-  return asset.path;
-};

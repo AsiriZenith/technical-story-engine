@@ -74,11 +74,15 @@ export const redisScenes = [
     workingTitle: 'Original Request Path',
     purpose: 'Show that repeated requests repeat the same expensive database work.',
     durationStrategy: sharedWindow(11),
-    assetIds: [],
+    assetIds: ['scene04OriginalRequestPath'],
     storyBeats: [
       'Client -> API -> Database -> expensive work -> Response',
       'USER 42 repeated three times',
       'Database: Alice. Again.',
+    ],
+    visualNotes: [
+      'Uses the exact user-supplied Scene 04 JPG as the dominant visual. Do not redraw, reinterpret, or substitute it.',
+      'The diagram carries baked English labels, so localization remains a documented asset limitation.',
     ],
   },
   {

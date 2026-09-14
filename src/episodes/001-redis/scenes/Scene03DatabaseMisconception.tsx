@@ -12,7 +12,7 @@ import {translate, type Language} from '../../../shared/localization';
 import {motionPresets} from '../../../shared/motion/presets';
 import {theme} from '../../../shared/styles/theme';
 import {layout, provisionalColors, typography} from '../../../shared/styles/visual-system';
-import {getAssetPath} from '../assets';
+import {resolveAsset} from '../asset-resolver';
 
 export type Scene03DatabaseMisconceptionProps = {
   language: Language;
@@ -63,18 +63,26 @@ const windowOpacity = (
 const DiagramAsset: React.FC<{
   assetId: 'scene03JokeDiagram' | 'scene03EndDiagram';
   scale: number;
-}> = ({assetId, scale}) => (
-  <Img
-    src={staticFile(getAssetPath(assetId))}
-    style={{
-      display: 'block',
-      height: '100%',
-      objectFit: 'cover',
-      transform: `scale(${scale})`,
-      width: '100%',
-    }}
-  />
-);
+}> = ({assetId, scale}) => {
+  const asset = resolveAsset(assetId);
+
+  if (!asset.path) {
+    throw new Error(`Asset ${assetId} has no file selected yet.`);
+  }
+
+  return (
+    <Img
+      src={staticFile(asset.path)}
+      style={{
+        display: 'block',
+        height: '100%',
+        objectFit: 'cover',
+        transform: `scale(${scale})`,
+        width: '100%',
+      }}
+    />
+  );
+};
 
 // The supplied diagrams have English labels baked in. Rather than editing the
 // artwork, the localized line is placed in the empty band beneath it.
