@@ -27,6 +27,7 @@ real-world metaphor -> explicit visual mapping -> technical model
 
 - Technical clarity is more important than visual novelty.
 - Use the installed official Remotion skills for current API and markup guidance.
+- Consult the specialist skills where relevant, translating their browser-runtime guidance into Remotion's deterministic `interpolate()`/`spring()` model: `frontend-design` for scene layout/typography/hierarchy, `animate` before implementing meaningful motion, and `review-animations` during agent QA on motion-heavy scenes. See AGENTS.md for detail. Skip them for changes with no visual or motion component.
 - Keep motion scene-relative and adaptable to narration timing.
 - Keep one conceptual visual master for `en`, `de`, and `fr`; avoid baked-in essential text.
 - Consume external media through logical asset IDs, never provider-specific components.

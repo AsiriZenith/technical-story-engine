@@ -33,4 +33,14 @@
 - Use the standardized `Human Review Requests` and `External Asset Requests` handoff sections in `docs/agent-workflow.md`; coding agents specify external-media requirements, not final provider prompts.
 - Report only checks actually executed. Preserve user changes, avoid unrelated scope, and do not commit or push unless explicitly authorized.
 
+## Specialist skills
+
+Beyond the official Remotion skills and the primary `technical-story-video` workflow skill, three contextual specialists are installed (`skills-lock.json`, `.agents/skills/`):
+
+- `frontend-design` — consult for scene layout, typography, and visual-hierarchy decisions on visible production work.
+- `animate` — consult before implementing meaningful motion (entrances, exits, state changes, emphasis).
+- `review-animations` — consult during agent QA before declaring motion-heavy scene work complete.
+
+These are advisory specialists, not replacements for `technical-story-video`, which remains the primary repository workflow skill. Their guidance targets browser CSS/WAAPI/JS-animation runtimes; in this repository, translate it to Remotion's deterministic frame-based model — use `interpolate()`/`spring()` driven by scene-relative local frames (see Timing and localization above), never real-time CSS transitions, WAAPI, or a JS motion library, as the source of production timing. Apply them only where relevant (e.g. a static config or type change needs neither); do not load every skill into every task.
+
 See `docs/production-architecture.md` and `docs/agent-workflow.md` for maintained detail. Keep `CLAUDE.md` pointing to this shared source when these rules change.
