@@ -31,6 +31,10 @@ const messages = {
     latencyTakeaway: 'Most of the time is spent doing database work.',
     misconceptionQuestion: 'So Redis made the database faster?',
     stoppedRepeatingWork: 'We stopped repeating some of the work.',
+    sameWorkAgain: 'Same work. Again.',
+    readyShelfIntro: 'Already prepared. Waiting on the shelf.',
+    chefDidntCookAtAll: "The chef didn't cook at all.",
+    redisSkipsRepeatedWork: 'Redis answers repeated requests without repeating database work.',
   },
   de: {
     episodeNumber: 'VIDEO #001',
@@ -58,6 +62,11 @@ const messages = {
     latencyTakeaway: 'Der größte Teil der Zeit entfällt auf Datenbankarbeit.',
     misconceptionQuestion: 'Hat Redis also die Datenbank schneller gemacht?',
     stoppedRepeatingWork: 'Wir wiederholen einen Teil der Arbeit nicht mehr.',
+    sameWorkAgain: 'Dieselbe Arbeit. Noch einmal.',
+    readyShelfIntro: 'Bereits zubereitet. Wartet im Regal.',
+    chefDidntCookAtAll: 'Der Koch hat gar nicht gekocht.',
+    redisSkipsRepeatedWork:
+      'Redis beantwortet wiederholte Anfragen, ohne die Datenbankarbeit zu wiederholen.',
   },
   fr: {
     episodeNumber: 'VIDÉO N° 001',
@@ -85,6 +94,11 @@ const messages = {
     latencyTakeaway: 'La majeure partie du temps est consacrée au travail de la base de données.',
     misconceptionQuestion: 'Redis a donc rendu la base plus rapide ?',
     stoppedRepeatingWork: 'Nous avons arrêté de répéter une partie du travail.',
+    sameWorkAgain: 'Le même travail. Encore.',
+    readyShelfIntro: 'Déjà préparé. En attente sur l’étagère.',
+    chefDidntCookAtAll: "Le chef n'a pas du tout cuisiné.",
+    redisSkipsRepeatedWork:
+      'Redis répond aux requêtes répétées sans répéter le travail de la base de données.',
   },
 } as const;
 

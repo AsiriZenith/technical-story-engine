@@ -39,6 +39,9 @@ export const scene01Window = redisPlannedSceneTimeline[0];
 export const scene02Window = redisPlannedSceneTimeline[1];
 export const scene03Window = redisPlannedSceneTimeline[2];
 export const scene04Window = redisPlannedSceneTimeline[3];
+export const scene05Window = redisPlannedSceneTimeline[4];
+export const scene06Window = redisPlannedSceneTimeline[5];
+export const scene07Window = redisPlannedSceneTimeline[6];
 
 export const redisArchitectureIsValid = validateEpisodeArchitecture({
   scenes: redisScenes,
@@ -58,7 +61,10 @@ export const redisEpisodeConfig = {
     scene01Window.duration +
     scene02Window.duration +
     scene03Window.duration +
-    scene04Window.duration,
+    scene04Window.duration +
+    scene05Window.duration +
+    scene06Window.duration +
+    scene07Window.duration,
   assets: redisAssetManifest,
   scenes: redisScenes,
   plannedSceneTimeline: redisPlannedSceneTimeline,
