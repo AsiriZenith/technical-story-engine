@@ -35,6 +35,21 @@ const messages = {
     readyShelfIntro: 'Already prepared. Waiting on the shelf.',
     chefDidntCookAtAll: "The chef didn't cook at all.",
     redisSkipsRepeatedWork: 'Redis answers repeated requests without repeating database work.',
+    cacheMissRequestArrives: 'A request reaches the application.',
+    cacheMissCheckRedis: 'Before touching the Database, the application checks Redis.',
+    cacheMissNotFound: 'But this time, Redis does not have the result.',
+    cacheMissAskDatabase: 'So the application still has to ask the Database.',
+    cacheMissExpensiveWork: 'The expensive work still happens on this request.',
+    cacheMissResultReturns: 'The Database returns the result.',
+    cacheMissStoreInRedis: 'Before responding, the application stores that result in Redis.',
+    cacheMissClosing: 'The first request was still expensive. But now Redis has the result ready for next time.',
+    cacheHitRequestArrives: 'Now the same request arrives again.',
+    cacheHitCheckRedis: 'The application checks Redis first.',
+    cacheHitFound: 'This time, Redis already has the result.',
+    cacheHitDatabaseSkipped: 'The Database is skipped entirely.',
+    cacheHitResultReturns: 'The cached result comes straight back to the application.',
+    cacheHitFastResponse: 'Now the response returns much faster — about 8 ms after Redis.',
+    cacheHitClosing: 'The Database did not get faster. We simply did not need it this time.',
   },
   de: {
     episodeNumber: 'VIDEO #001',
@@ -67,6 +82,22 @@ const messages = {
     chefDidntCookAtAll: 'Der Koch hat gar nicht gekocht.',
     redisSkipsRepeatedWork:
       'Redis beantwortet wiederholte Anfragen, ohne die Datenbankarbeit zu wiederholen.',
+    cacheMissRequestArrives: 'Eine Anfrage erreicht die Anwendung.',
+    cacheMissCheckRedis: 'Bevor die Anwendung die Datenbank anspricht, prüft sie Redis.',
+    cacheMissNotFound: 'Doch diesmal hat Redis das Ergebnis nicht.',
+    cacheMissAskDatabase: 'Also muss die Anwendung trotzdem die Datenbank fragen.',
+    cacheMissExpensiveWork: 'Die teure Arbeit fällt bei dieser Anfrage trotzdem an.',
+    cacheMissResultReturns: 'Die Datenbank liefert das Ergebnis zurück.',
+    cacheMissStoreInRedis: 'Bevor sie antwortet, speichert die Anwendung das Ergebnis in Redis.',
+    cacheMissClosing:
+      'Die erste Anfrage war trotzdem teuer. Aber jetzt hat Redis das Ergebnis für das nächste Mal bereit.',
+    cacheHitRequestArrives: 'Jetzt trifft dieselbe Anfrage erneut ein.',
+    cacheHitCheckRedis: 'Die Anwendung prüft zuerst Redis.',
+    cacheHitFound: 'Diesmal hat Redis das Ergebnis bereits.',
+    cacheHitDatabaseSkipped: 'Die Datenbank wird komplett übersprungen.',
+    cacheHitResultReturns: 'Das zwischengespeicherte Ergebnis geht direkt zurück an die Anwendung.',
+    cacheHitFastResponse: 'Jetzt kommt die Antwort viel schneller zurück – etwa 8 ms nach Redis.',
+    cacheHitClosing: 'Die Datenbank wurde nicht schneller. Wir haben sie diesmal einfach nicht gebraucht.',
   },
   fr: {
     episodeNumber: 'VIDÉO N° 001',
@@ -99,6 +130,25 @@ const messages = {
     chefDidntCookAtAll: "Le chef n'a pas du tout cuisiné.",
     redisSkipsRepeatedWork:
       'Redis répond aux requêtes répétées sans répéter le travail de la base de données.',
+    cacheMissRequestArrives: "Une requête arrive jusqu'à l'application.",
+    cacheMissCheckRedis:
+      "Avant de contacter la base de données, l'application vérifie Redis.",
+    cacheMissNotFound: "Mais cette fois, Redis n'a pas le résultat.",
+    cacheMissAskDatabase: "L'application doit donc quand même interroger la base de données.",
+    cacheMissExpensiveWork: 'Le travail coûteux a quand même lieu pour cette requête.',
+    cacheMissResultReturns: 'La base de données renvoie le résultat.',
+    cacheMissStoreInRedis:
+      "Avant de répondre, l'application stocke ce résultat dans Redis.",
+    cacheMissClosing:
+      "La première requête a quand même coûté cher. Mais Redis a maintenant le résultat prêt pour la prochaine fois.",
+    cacheHitRequestArrives: 'Maintenant, la même requête arrive à nouveau.',
+    cacheHitCheckRedis: "L'application vérifie d'abord Redis.",
+    cacheHitFound: 'Cette fois, Redis a déjà le résultat.',
+    cacheHitDatabaseSkipped: 'La base de données est entièrement contournée.',
+    cacheHitResultReturns: 'Le résultat mis en cache revient directement à l’application.',
+    cacheHitFastResponse: 'La réponse revient maintenant beaucoup plus vite — environ 8 ms après Redis.',
+    cacheHitClosing:
+      "La base de données n'est pas devenue plus rapide. Nous n'en avions simplement pas besoin cette fois.",
   },
 } as const;
 

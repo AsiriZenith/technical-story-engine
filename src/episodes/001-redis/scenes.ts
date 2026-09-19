@@ -146,12 +146,15 @@ export const redisScenes = [
     workingTitle: 'Cache Miss',
     purpose: 'Trace the full miss path and show the result being stored for later.',
     durationStrategy: sharedWindow(14, 2),
-    assetIds: [],
+    assetIds: ['scene07TechnicalArchitecture'],
     storyBeats: [
       'GET /users/42 -> Application -> Redis -> MISS',
       'Database -> Result -> Store user:42 in Redis -> Response',
     ],
-    visualNotes: ['Optional tiny empty-drawer shrug from Redis.'],
+    visualNotes: [
+      'Reuses the exact approved Scene 07 technical-architecture PNG as the visual foundation; never redrawn or recomposed as native Remotion nodes.',
+      'Sequential SpotlightImage highlighting only (Application -> Redis -> Database -> Application -> Redis), never simultaneous. Client is not spotlighted; its role was already established in Scenes 01/04/07.',
+    ],
   },
   {
     id: '09-cache-hit',
@@ -159,12 +162,16 @@ export const redisScenes = [
     workingTitle: 'Cache Hit',
     purpose: 'Deliver the central lesson: the expensive query is skipped, not accelerated.',
     durationStrategy: sharedWindow(12, 2),
-    assetIds: [],
+    assetIds: ['scene07TechnicalArchitecture'],
     storyBeats: [
       'GET /users/42 -> Application -> Redis -> HIT -> Response',
       'Redis did not speed up the query. Redis allowed us to skip it.',
     ],
-    visualNotes: ['No joke should interrupt this explanation.'],
+    visualNotes: [
+      'Reuses the exact approved Scene 07 technical-architecture PNG as the visual foundation; never redrawn or recomposed as native Remotion nodes.',
+      'Sequential SpotlightImage highlighting only (Application -> Redis -> Application -> Client), never simultaneous. Redis stays the sole spotlight through both the cache-hit and Database-skipped beats; Database is never itself spotlighted so it reads as skipped by contrast.',
+      'No joke should interrupt this explanation.',
+    ],
   },
   {
     id: '10-why-redis-fast',

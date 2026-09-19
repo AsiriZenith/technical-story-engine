@@ -8,6 +8,8 @@ import {
   scene05Window,
   scene06Window,
   scene07Window,
+  scene08Window,
+  scene09Window,
 } from './episode.config';
 import {Scene01Mystery} from './scenes/Scene01Mystery';
 import {Scene02LatencyBreakdown} from './scenes/Scene02LatencyBreakdown';
@@ -16,6 +18,8 @@ import {Scene04OriginalRequestPath} from './scenes/Scene04OriginalRequestPath';
 import {Scene05RestaurantRepeatWork} from './scenes/Scene05RestaurantRepeatWork';
 import {Scene06ReadyShelfCacheHit} from './scenes/Scene06ReadyShelfCacheHit';
 import {Scene07AnalogyToArchitecture} from './scenes/Scene07AnalogyToArchitecture';
+import {Scene08CacheMiss} from './scenes/Scene08CacheMiss';
+import {Scene09CacheHit} from './scenes/Scene09CacheHit';
 
 export type RedisEpisodeProps = {
   language: Language;
@@ -87,6 +91,20 @@ export const RedisEpisode: React.FC<RedisEpisodeProps> = ({language}) => {
           language={language}
           durationInFrames={scene07Window.duration}
         />
+      </Sequence>
+      <Sequence
+        name="Scene 08 - Cache Miss"
+        from={scene08Window.start}
+        durationInFrames={scene08Window.duration}
+      >
+        <Scene08CacheMiss language={language} durationInFrames={scene08Window.duration} />
+      </Sequence>
+      <Sequence
+        name="Scene 09 - Cache Hit"
+        from={scene09Window.start}
+        durationInFrames={scene09Window.duration}
+      >
+        <Scene09CacheHit language={language} durationInFrames={scene09Window.duration} />
       </Sequence>
     </>
   );
