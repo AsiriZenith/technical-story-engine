@@ -10,6 +10,10 @@ import {
   scene07Window,
   scene08Window,
   scene09Window,
+  scene10Window,
+  scene11Window,
+  scene12Window,
+  scene13Window,
 } from './episode.config';
 import {Scene01Mystery} from './scenes/Scene01Mystery';
 import {Scene02LatencyBreakdown} from './scenes/Scene02LatencyBreakdown';
@@ -20,6 +24,10 @@ import {Scene06ReadyShelfCacheHit} from './scenes/Scene06ReadyShelfCacheHit';
 import {Scene07AnalogyToArchitecture} from './scenes/Scene07AnalogyToArchitecture';
 import {Scene08CacheMiss} from './scenes/Scene08CacheMiss';
 import {Scene09CacheHit} from './scenes/Scene09CacheHit';
+import {Scene10WhyRedisFast} from './scenes/Scene10WhyRedisFast';
+import {Scene11CacheEverything} from './scenes/Scene11CacheEverything';
+import {Scene12StaleCache} from './scenes/Scene12StaleCache';
+import {Scene13CacheCosts} from './scenes/Scene13CacheCosts';
 
 export type RedisEpisodeProps = {
   language: Language;
@@ -105,6 +113,34 @@ export const RedisEpisode: React.FC<RedisEpisodeProps> = ({language}) => {
         durationInFrames={scene09Window.duration}
       >
         <Scene09CacheHit language={language} durationInFrames={scene09Window.duration} />
+      </Sequence>
+      <Sequence
+        name="Scene 10 - Why Redis Is Fast"
+        from={scene10Window.start}
+        durationInFrames={scene10Window.duration}
+      >
+        <Scene10WhyRedisFast language={language} durationInFrames={scene10Window.duration} />
+      </Sequence>
+      <Sequence
+        name="Scene 11 - Cache Everything?"
+        from={scene11Window.start}
+        durationInFrames={scene11Window.duration}
+      >
+        <Scene11CacheEverything language={language} durationInFrames={scene11Window.duration} />
+      </Sequence>
+      <Sequence
+        name="Scene 12 - Stale Cache"
+        from={scene12Window.start}
+        durationInFrames={scene12Window.duration}
+      >
+        <Scene12StaleCache language={language} durationInFrames={scene12Window.duration} />
+      </Sequence>
+      <Sequence
+        name="Scene 13 - Cost of Caching"
+        from={scene13Window.start}
+        durationInFrames={scene13Window.duration}
+      >
+        <Scene13CacheCosts language={language} durationInFrames={scene13Window.duration} />
       </Sequence>
     </>
   );
