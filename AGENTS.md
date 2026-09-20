@@ -12,6 +12,12 @@
 - Put genuinely reusable code in `src/shared/` and episode-specific code in its episode directory. Do not promote one-off code prematurely.
 - Keep DEV playground code in `src/dev/` and clearly separated from production compositions.
 
+## Storyboard convention
+
+- Every episode has a `src/episodes/<episode-id>/storyboard/` folder: `README.md` (episode index and scene-status table), `scenes/scene-NN-<slug>.md` (one file per scene, fixed template), and `decisions.md` (open, unresolved issues).
+- Every task/spec working on a specific scene must reference that scene's `storyboard/scenes/scene-NN-*.md` file rather than restating scene context inline.
+- Update `storyboard/README.md` and `storyboard/decisions.md` whenever a scene's status changes or a new open decision is identified. This replaces maintaining one large growing status document per episode.
+
 ## Timing and localization
 
 - Use scene-relative local frames, normalized progress, and named timing constants. Do not scatter absolute global frame numbers through scene code.
