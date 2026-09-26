@@ -29,7 +29,7 @@ export const redisScenes = [
     purpose: 'Establish the surprising latency improvement that the episode explains.',
     durationStrategy: sharedWindow(20, 2),
     assetIds: [],
-    storyBeats: ['GET /users/42', 'Before Redis: 180 ms', 'After Redis: 8 ms'],
+    storyBeats: ['GET /users/42', 'Before Redis: 180 ms', 'After Redis: 10 ms'],
   },
   {
     id: '02-latency-breakdown',
@@ -46,7 +46,7 @@ export const redisScenes = [
       'Database work dominates',
     ],
     visualNotes: [
-      'Timing bar is implemented as a reusable shared component; later scenes may reuse it to compare against the 8 ms cache-hit result.',
+      'Timing bar is implemented as a reusable shared component; later scenes may reuse it to compare against the 10 ms cache-hit result.',
     ],
   },
   {
@@ -250,9 +250,10 @@ export const redisScenes = [
       'Caching trades repeated work for extra state, infrastructure, and coordination.',
     ],
     visualNotes: [
-      'Fully Remotion-native, hybrid central-node scene -- no image asset, no SpotlightImage. A small central Redis node (Scene 01\'s cache-node accent/stack-icon vocabulary, simplified) stays on screen from Beat 2 onward; one of four callouts (Freshness / Capacity / Resilience / Operations) is fully active at a time around it, each paired with a small ease-out pulse on the central node, never an arrow or connecting line.',
-      'Grouping replaces the earlier overlapping "Memory and cache misses" / "Monitoring and failure handling" wording with four non-overlapping categories: Freshness (expiration+invalidation), Capacity (memory), Resilience (misses+failures), Operations (monitoring+infrastructure).',
-      'No humor in this scene, per the approved plan -- tone stays calm and matter-of-fact.',
+      'Rebuilt under TASK-025e (Option A) after human review found the original text-label-plus-caption treatment too flat. Fully Remotion-native, hybrid central-node scene -- no image asset, no SpotlightImage. A small central Redis node stays on screen from Beat 2 onward; one of four per-category diagrams (Freshness / Capacity / Resilience / Operations) is fully active at a time around it.',
+      'Each category now gets a literal diagram instead of a caption: Freshness -- a depleting countdown ring that shifts to a stale-red state; Capacity -- a memory bar that fills then evicts its oldest block; Resilience -- the central node dims while a request packet reroutes to a temporary Database node, then the node springs back; Operations -- a pulsing monitoring heartbeat.',
+      'Standing rule set by TASK-025e: spring() for node-settle/return-to-state beats (the Resilience node\'s return only), interpolate() for everything else.',
+      'No humor in this scene, per the approved plan -- tone stays calm and matter-of-fact. See storyboard/scenes/scene-13-cache-tradeoffs.md for the full history (superseded approach, rebuild options considered, and rationale).',
     ],
   },
   {
@@ -266,6 +267,13 @@ export const redisScenes = [
       'Without caching: Request -> Application -> Database -> expensive work -> Response',
       'Cache hit: Request -> Application -> Redis -> Response',
       'What work did Redis allow us to stop doing?',
+    ],
+    visualNotes: [
+      'Implemented under TASK-026 (Option A) as a bookend to Scene 01: a simplified, file-local rebuild of Scene 01\'s Client/Application/Database/Redis node-and-packet diagram (Scene 01\'s own node/glyph/arrow components are not shared/exported, so this scene re-implements a trimmed copy, the same pattern Scene 13 already used).',
+      'A single packet makes one forward trip per path (Request -> Application -> Database for the slow path, Request -> Application -> Redis for the fast path); no animated return leg is drawn, matching Scene 01\'s own baseline-packet convention. A "Response" chip near the Request node stands in for the return trip on both paths.',
+      'Packet motion uses a scene-local interpolate() timeline sized to this scene\'s own beat windows, not motionPresets.moveLinear\'s fixed 3.8s duration, which does not fit -- the same per-scene timing convention Scenes 01/12/13 already use.',
+      'No spring() in this scene: every beat is a one-way entrance/exit or forward travel, not a return-to-a-prior-state settle, so the standing rule from TASK-025e (spring() for node-settle/return beats) does not apply here.',
+      'No bottom-caption treatment: the closing beat is a single centered question (mirroring Scene 01\'s own big-number-then-question finale structure), not a caption over a background visual.',
     ],
   },
 ] as const satisfies readonly RedisSceneDefinition[];

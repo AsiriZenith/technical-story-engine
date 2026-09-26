@@ -14,6 +14,7 @@ import {
   scene11Window,
   scene12Window,
   scene13Window,
+  scene14Window,
 } from './episode.config';
 import {Scene01Mystery} from './scenes/Scene01Mystery';
 import {Scene02LatencyBreakdown} from './scenes/Scene02LatencyBreakdown';
@@ -28,6 +29,7 @@ import {Scene10WhyRedisFast} from './scenes/Scene10WhyRedisFast';
 import {Scene11CacheEverything} from './scenes/Scene11CacheEverything';
 import {Scene12StaleCache} from './scenes/Scene12StaleCache';
 import {Scene13CacheCosts} from './scenes/Scene13CacheCosts';
+import {Scene14FinalMentalModel} from './scenes/Scene14FinalMentalModel';
 
 export type RedisEpisodeProps = {
   language: Language;
@@ -141,6 +143,13 @@ export const RedisEpisode: React.FC<RedisEpisodeProps> = ({language}) => {
         durationInFrames={scene13Window.duration}
       >
         <Scene13CacheCosts language={language} durationInFrames={scene13Window.duration} />
+      </Sequence>
+      <Sequence
+        name="Scene 14 - Final Mental Model"
+        from={scene14Window.start}
+        durationInFrames={scene14Window.duration}
+      >
+        <Scene14FinalMentalModel language={language} durationInFrames={scene14Window.duration} />
       </Sequence>
     </>
   );

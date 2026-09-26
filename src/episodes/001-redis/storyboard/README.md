@@ -8,7 +8,7 @@ Core technical thesis:
 
 > Redis does not necessarily make the original database query faster. Instead, Redis lets the application avoid repeating expensive work when a cached result already exists.
 
-Running example: `GET /users/42` — before Redis, ~180 ms; after Redis (cache hit), ~8 ms.
+Running example: `GET /users/42` — before Redis, ~180 ms; after Redis (cache hit), ~10 ms.
 
 The episode deliberately avoids the simplistic explanation "Redis is fast because RAM is fast and databases are slow because disks are slow." Instead it builds toward the mental model: **what work did Redis allow us to stop doing?**
 
@@ -29,29 +29,33 @@ The episode deliberately avoids the simplistic explanation "Redis is fast becaus
 | 11 | Cache Everything? | Implemented, PASS | [scene-11-should-we-cache-everything.md](scenes/scene-11-should-we-cache-everything.md) |
 | 12 | Stale Cache | Implemented, PASS | [scene-12-stale-cache.md](scenes/scene-12-stale-cache.md) |
 | 13 | Cost of Caching | Implemented, TASK-024 PASS, human review pending | [scene-13-cache-tradeoffs.md](scenes/scene-13-cache-tradeoffs.md) |
-| 14 | Final Mental Model | Not yet implemented | [scene-14-final-mental-model.md](scenes/scene-14-final-mental-model.md) |
+| 14 | Final Mental Model | Implemented, awaiting human video review | [scene-14-final-mental-model.md](scenes/scene-14-final-mental-model.md) |
 
 ## Current Overall Status
 
 ```text
-Scene planning:        almost complete
-Scene implementation:  13 of 14 scenes implemented (~90-93%)
+Scene planning:        complete
+Scene implementation:  14 of 14 scenes implemented (100%)
 Visual system:         established
-Localization:          EN / DE / FR integrated through Scene 13
+Localization:          EN / DE / FR integrated through Scene 14
 Review workflow:       established and working
-Final scene:           not yet implemented
-Narration/audio:       not yet finalized for the complete episode
+Final scene:           implemented (TASK-026), awaiting human video review
+Full-episode review:   completed by agent (TASK-027), awaiting human confirmation
+8ms/10ms discrepancy:   resolved (TASK-028) — standardized on ~10 ms
+Narration script:       drafted (TASK-028), awaiting user read-through/edit approval
+Voice tool selection:   not yet made — user must test ElevenLabs/Descript/Play.ht
+                        against src/episodes/001-redis/narration/voice-test-snippet.md
+                        and fill in narration/voice-tool-comparison.md
 Full-episode QA:       still required
 Final render/package:  still required
 ```
 
-The episode is past the "figuring out what the video should be" phase and is now in:
+The episode is past per-scene production and is now in:
 
 ```text
-finish final scene (Scene 14)
--> review entire episode
--> finalize narration/audio
--> polish transitions/timing
+finalize narration script (user read-through) + voice tool selection (user testing)
+-> record/generate narration audio
+-> polish transitions/timing (see feedbacks/TASK-027.md's 10->11 transition finding)
 -> final multilingual validation
 -> final render
 ```

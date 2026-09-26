@@ -10,7 +10,7 @@ Break the original ~180 ms pre-Redis request into meaningful parts and make data
 Implemented, human approved.
 
 ## Visual Approach
-Timing bar implemented as a reusable shared component; later scenes may reuse it to compare against the ~8 ms cache-hit result.
+Timing bar implemented as a reusable shared component; later scenes may reuse it to compare against the ~10 ms cache-hit result.
 
 ## Assets Used
 None (`assetIds: []` in `scenes.ts`).

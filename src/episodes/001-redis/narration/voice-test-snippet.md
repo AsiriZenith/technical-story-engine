@@ -1,0 +1,1 @@
+Here's a strange one. This API call takes about 180 milliseconds to respond. Add Redis to the picture, send the exact same request, and it comes back in around 10 milliseconds. Same request. Same data. So... what changed?

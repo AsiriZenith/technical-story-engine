@@ -558,7 +558,7 @@ export const Scene01Mystery: React.FC<Scene01MysteryProps> = ({
             {translate(language, 'afterRedis')}
           </div>
           <div style={{color: provisionalColors.success, fontSize: 112, fontWeight: 900, lineHeight: 1.05}}>
-            8 ms
+            10 ms
           </div>
         </Interactive.Div>
       </div>
@@ -591,7 +591,7 @@ export const Scene01Mystery: React.FC<Scene01MysteryProps> = ({
         <div style={{alignItems: 'center', display: 'flex', gap: 44, whiteSpace: 'nowrap'}}>
           <span style={{color: provisionalColors.number, fontSize: 132, fontWeight: 900}}>180 ms</span>
           <span style={{color: theme.muted, fontSize: 96}}>→</span>
-          <span style={{color: provisionalColors.success, fontSize: 150, fontWeight: 900}}>8 ms</span>
+          <span style={{color: provisionalColors.success, fontSize: 150, fontWeight: 900}}>10 ms</span>
         </div>
         <div
           style={{

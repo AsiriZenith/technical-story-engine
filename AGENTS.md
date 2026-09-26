@@ -18,6 +18,13 @@
 - Every task/spec working on a specific scene must reference that scene's `storyboard/scenes/scene-NN-*.md` file rather than restating scene context inline.
 - Update `storyboard/README.md` and `storyboard/decisions.md` whenever a scene's status changes or a new open decision is identified. This replaces maintaining one large growing status document per episode.
 
+## Visual-first design principle
+
+- Every scene should default to a diagram, animation, or visual metaphor over a text-only explanation. Text-only beats (like Option C considered for Scene 14) are a fallback, not the default choice.
+- When multiple ways exist to explain a concept, prefer the one that gives the viewer something to *watch* — motion, spatial relationships, visual before/after contrast — over the one that's fastest to build.
+- This applies to scene planning tasks going forward: when a planning task proposes options (as TASK-025b did for Scene 14), the options themselves should lean toward creative visual treatments first; a text-only option should only be included as a deliberate low-effort fallback, not presented as equally preferred.
+- Trade-off, accepted deliberately: visual-first scenes generally cost more implementation effort than text-only ones (as seen with Scene 14's Option A vs. Option C). That is an accepted cost for this channel, not something to optimize away by defaulting to cheaper text-based scenes.
+
 ## Timing and localization
 
 - Use scene-relative local frames, normalized progress, and named timing constants. Do not scatter absolute global frame numbers through scene code.

@@ -63,7 +63,7 @@ Before Redis:
 ~180 ms
 
 After Redis / cache hit:
-~8 ms
+~10 ms
 ```
 
 The episode deliberately avoids the simplistic explanation:
@@ -137,7 +137,7 @@ GET /users/42
 Add Redis
 
 Same request
-~8 ms
+~10 ms
 
 “What changed?”
 ```
@@ -353,13 +353,7 @@ The image contains baked text:
 ~10 ms
 ```
 
-while the episode’s established example is:
-
-```text
-~8 ms
-```
-
-This discrepancy remains documented.
+**Resolved (TASK-028):** the episode's example was standardized to `~10 ms` everywhere, matching this image's baked text — no further discrepancy.
 
 ---
 
@@ -874,35 +868,17 @@ This has been accepted temporarily, but it should be revisited during final epis
 
 # 11. Important Known Issues / Technical Debt
 
-## A. ~8 ms vs ~10 ms inconsistency
+## A. ~8 ms vs ~10 ms inconsistency — RESOLVED (TASK-028)
 
-Episode canonical example:
-
-```text
-~8 ms
-```
-
-Architecture image:
+Episode canonical example is now standardized to `~10 ms` everywhere, matching the architecture image's baked text (Option 1 below was chosen). See `storyboard/decisions.md` item 1 and `feedbacks/TASK-028.md` for the full list of files changed.
 
 ```text
-~10 ms
-```
-
-This is currently visible in some scenes.
-
-Decision still required:
-
-```text
-Option 1:
+Option 1 (chosen):
 standardize narration/captions toward ~10 ms
 
-or
-
-Option 2:
+Option 2 (not needed):
 replace/correct the architecture image
 ```
-
-Do not silently choose one.
 
 ---
 

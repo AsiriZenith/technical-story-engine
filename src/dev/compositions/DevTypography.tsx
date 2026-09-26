@@ -64,7 +64,7 @@ export const DevTypography: React.FC<DevTypographyProps> = ({language}) => {
 
       <div style={{display: 'grid', gap: 76, gridTemplateColumns: '1.55fr 0.9fr', marginTop: 48}}>
         <div style={{maxWidth: layout.maxTextWidth}}>
-          <div style={{color: provisionalColors.number, ...typography.display}}>180 ms → 8 ms</div>
+          <div style={{color: provisionalColors.number, ...typography.display}}>180 ms → 10 ms</div>
           <div style={{marginTop: 32, ...typography.sceneTitle}}>{copy.heading}</div>
           <div style={{color: theme.muted, marginTop: 26, ...typography.body}}>
             {copy.explanation}

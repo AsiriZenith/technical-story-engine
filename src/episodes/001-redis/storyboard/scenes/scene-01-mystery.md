@@ -4,7 +4,7 @@
 Establish the surprising latency improvement that the episode explains, without giving away the answer.
 
 ## Narrative Beat
-`GET /users/42` takes ~180 ms. After adding Redis, the same request takes ~8 ms. The scene ends on the open question "What changed?" rather than answering it.
+`GET /users/42` takes ~180 ms. After adding Redis, the same request takes ~10 ms. The scene ends on the open question "What changed?" rather than answering it.
 
 ## Status
 Implemented, human approved.

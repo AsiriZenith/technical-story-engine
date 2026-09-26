@@ -2,17 +2,17 @@
 
 This log records known open issues that have not yet been resolved. It does not resolve them — resolving any of these requires an explicit follow-up task and, where visible media is affected, human review.
 
-## 1. `~8 ms` vs `~10 ms` inconsistency
+## 1. `~8 ms` vs `~10 ms` inconsistency — RESOLVED (TASK-028)
 
-**Issue:** The episode's canonical cache-hit example throughout narration/captions is `~8 ms`, but the approved Scene 07 technical-architecture image (`scene07TechnicalArchitecture`, reused by Scenes 07, 08, 09, and 10) contains baked text reading `~10 ms`.
+**Issue:** The episode's canonical cache-hit example throughout narration/captions was `~8 ms`, but the approved Scene 07 technical-architecture image (`scene07TechnicalArchitecture`, reused by Scenes 07, 08, 09, and 10) contains baked text reading `~10 ms`.
 
-**Why not yet fixed:** The image is a human-approved, user-supplied asset under the manual asset workflow (`docs/manual-asset-workflow.md`); the coding agent cannot redraw, reinterpret, or silently correct it. No decision has been made yet on which side to change.
+**Decision:** Standardized on **`~10 ms`** everywhere (Option 1 below), since it matches the existing, already-approved architecture image — no image regeneration needed. This was decided before narration recording begins (TASK-028's "Why"), since narration will state the exact number out loud and the two values can't coexist once spoken.
 
-**What would resolve it:**
-- Option 1 — standardize narration/captions toward `~10 ms` across the episode, or
-- Option 2 — replace/correct the architecture image (requires a new user-approved asset).
+**What was changed:** Every occurrence of the episode's cache-hit example stated as `~8 ms` was updated to `~10 ms` in `Scene01Mystery.tsx`, `src/shared/localization/index.ts` (`cacheHitFastResponse` key, all three languages), `scenes.ts` (Scene 01's `storyBeats` and Scene 02's `visualNotes`), `DevTypography.tsx`'s demo value, and the relevant storyboard files (`README.md`, `scene-01-mystery.md`, `scene-02-latency-breakdown.md`, `scene-07-analogy-to-architecture.md`, `scene-08-cache-miss.md`). Scene 02's own, unrelated `network/DB connection ~8 ms` breakdown value was left untouched — it describes a different quantity (part of the pre-Redis 180ms breakdown), not the cache-hit comparison. See `feedbacks/TASK-028.md` for the full list.
 
-Do not silently choose one; this needs an explicit task and user decision.
+**Original options considered:**
+- Option 1 — standardize narration/captions toward `~10 ms` across the episode (**chosen**), or
+- Option 2 — replace/correct the architecture image (would have required a new user-approved asset; not needed since Option 1 was chosen).
 
 ## 2. `SpotlightImage` radial-gradient mask-math issue
 
@@ -29,3 +29,9 @@ Do not silently choose one; this needs an explicit task and user decision.
 **Why not yet fixed:** Not a technical failure, but a visual-design judgment call that needs a human decision on the desired end state.
 
 **What would resolve it:** A human design decision between the two coherent options — all four labels faintly visible, or all four fully hidden — followed by a small Scene 13 polish task implementing that choice. This is also currently the episode's human-review bottleneck: Scene 13 review determines whether Scene 14 planning can begin (see `README.md` and `docs/REDIS_EPISODE_PRODUCTION_STATUS.md` "Immediate Next Step").
+
+**Update (TASK-025c):** Scene 14's visual approach (Option A) has now been approved and documented in `scenes/scene-14-final-mental-model.md`, but that approval is planning-only and does not resolve or bypass this gate. Scene 13's human review is still outstanding. TASK-026 (Scene 14 implementation) must confirm Scene 13's review outcome before implementation begins.
+
+**Update (TASK-025e):** The ambient-label issue itself is now **resolved** — Scene 13 was rebuilt (Option A, per TASK-025d's planning) to replace the four text-label-plus-caption callouts with per-category diagrams (a freshness countdown ring, a capacity/eviction bar, a resilience node-dim-and-reroute beat, and an operations heartbeat motif). These vignettes retire in sequence rather than settling into a lingering ambient state, so there is no longer a closing-frame state where some category labels are visible and others are hidden; this was confirmed against rendered stills at each beat (see `feedbacks/task-025e-scene13-rebuild-feedback.md`). This resolves the ambient-label issue specifically, but **does not** resolve the broader human-review gate above: Scene 13's rebuild still needs human video review before TASK-026 (Scene 14 implementation) can proceed, since implementing a fix is not the same as a human confirming it looks right on screen.
+
+**Update (TASK-026):** The user confirmed Scene 13's rebuild review before this task began, clearing the human-review gate described above. Scene 14 (the episode's final scene) has now been implemented — see `feedbacks/task-026-scene14-implementation-feedback.md`. The originally-flagged 13-vs-14 scene count mismatch from the architecture review is now fully resolved: all 14 scenes in `scenes.ts` have a corresponding implemented `.tsx` file, registered in both `episode.config.ts`'s timeline and `RedisEpisode.tsx`'s sequence list. This item can be considered closed pending Scene 14's own human video review (a separate, per-scene gate, not a reopening of this item).

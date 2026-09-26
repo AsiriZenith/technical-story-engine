@@ -16,7 +16,7 @@ Reuses the exact approved Scene 07 technical-architecture PNG (`scene07Technical
 `scene07TechnicalArchitecture` (`approved`, human-approved 2026-09-14, reused from Scene 07).
 
 ## Known Issues
-Inherits the `~8 ms` vs `~10 ms` baked-text discrepancy and the `SpotlightImage` mask-math issue tracked in `decisions.md`; this scene is one of the ones tuned around current `SpotlightImage` behavior.
+The `~8 ms` vs `~10 ms` baked-text discrepancy is **resolved (TASK-028)** — the episode is now standardized on ~10 ms, matching this image's baked text. This scene still inherits the `SpotlightImage` mask-math issue tracked in `decisions.md`; it is one of the ones tuned around current `SpotlightImage` behavior.
 
 ## Review Notes
 Keep spotlight sequencing strictly sequential (never simultaneous) to preserve the step-by-step miss path established here.

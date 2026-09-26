@@ -67,6 +67,16 @@ Asset states mean:
 
 When media changes, record exact artifact paths and agent QA findings, set human review to `PENDING`, and stop after the report. User feedback belongs in a subsequent task. Never silently promote a candidate to approved.
 
+### Renders made for human review are kept, not deleted
+
+Starting with TASK-027, any render produced specifically to support a `Human Review Request` must be saved under `renders/review/` and left in place after the agent's own self-review — this is different from the ad-hoc verification stills an agent renders only to check its own work during development (e.g. a quick `remotion still` to confirm a fix), which may still be deleted once self-review is done, as before.
+
+Suggested structure: `renders/review/<task-id>/` (for example, `renders/review/TASK-027/`), containing the video/stills relevant to that task's Human Review Request.
+
+`renders/` is already gitignored, so this does not add anything to git — it is a local working folder that lets the human check the work without having to re-render it themselves.
+
+This applies from TASK-027 onward; renders deleted by earlier tasks (e.g. TASK-025e, TASK-026) do not need to be regenerated retroactively.
+
 ## Manual asset inputs
 
 Scene-specific visuals where precision matters (a key joke beat, a core

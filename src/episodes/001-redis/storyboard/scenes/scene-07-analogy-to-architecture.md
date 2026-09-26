@@ -16,7 +16,7 @@ Both beats are user-supplied PNG assets (`scene07AnalogyMapping`, `scene07Techni
 `scene07AnalogyMapping`, `scene07TechnicalArchitecture` (both `approved`, human-approved 2026-09-14). `scene07TechnicalArchitecture` is reused as the visual foundation for Scenes 08, 09, and 10.
 
 ## Known Issues
-The architecture image contains baked text "~10 ms", while the episode's established canonical example is "~8 ms". This discrepancy is open and unresolved — see `decisions.md`. It also inherits the `SpotlightImage` mask-math issue tracked in `decisions.md`; this scene is one of the ones tuned around current behavior.
+**Resolved (TASK-028):** the architecture image's baked "~10 ms" text and the episode's canonical example were previously inconsistent (episode example was "~8 ms"); the episode was standardized on ~10 ms everywhere, matching this already-approved image, so no image regeneration was needed. See `decisions.md` item 1. This scene still inherits the `SpotlightImage` mask-math issue tracked in `decisions.md`; it is one of the scenes tuned around current behavior.
 
 ## Review Notes
 This scene establishes the current architecture image reused later by Scenes 08–10 — any change to `scene07TechnicalArchitecture` or its spotlight behavior must be regression-checked against those scenes.

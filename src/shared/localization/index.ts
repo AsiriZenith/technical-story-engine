@@ -48,7 +48,7 @@ const messages = {
     cacheHitFound: 'This time, Redis already has the result.',
     cacheHitDatabaseSkipped: 'The Database is skipped entirely.',
     cacheHitResultReturns: 'The cached result comes straight back to the application.',
-    cacheHitFastResponse: 'Now the response returns much faster — about 8 ms after Redis.',
+    cacheHitFastResponse: 'Now the response returns much faster — about 10 ms after Redis.',
     cacheHitClosing: 'The Database did not get faster. We simply did not need it this time.',
     whyFastBridge: 'Why is that path so much faster?',
     whyFastPreparedResult: 'Redis already holds a prepared result.',
@@ -85,6 +85,11 @@ const messages = {
     cacheCostsOperationsCaption: 'Someone has to watch it, and something has to run it.',
     cacheCostsClosing:
       'Caching trades repeated work for extra state, infrastructure, and coordination.',
+    finalMentalModelWithoutCaching: 'Without caching',
+    finalMentalModelCacheHit: 'Cache hit',
+    finalMentalModelExpensiveWork: 'Expensive work',
+    finalMentalModelResponse: 'Response',
+    finalMentalModelQuestion: 'What work did Redis allow us to stop doing?',
   },
   de: {
     episodeNumber: 'VIDEO #001',
@@ -131,7 +136,7 @@ const messages = {
     cacheHitFound: 'Diesmal hat Redis das Ergebnis bereits.',
     cacheHitDatabaseSkipped: 'Die Datenbank wird komplett übersprungen.',
     cacheHitResultReturns: 'Das zwischengespeicherte Ergebnis geht direkt zurück an die Anwendung.',
-    cacheHitFastResponse: 'Jetzt kommt die Antwort viel schneller zurück – etwa 8 ms nach Redis.',
+    cacheHitFastResponse: 'Jetzt kommt die Antwort viel schneller zurück – etwa 10 ms nach Redis.',
     cacheHitClosing: 'Die Datenbank wurde nicht schneller. Wir haben sie diesmal einfach nicht gebraucht.',
     whyFastBridge: 'Warum ist dieser Pfad so viel schneller?',
     whyFastPreparedResult: 'Redis hat das Ergebnis bereits vorbereitet.',
@@ -170,6 +175,11 @@ const messages = {
     cacheCostsOperationsCaption: 'Jemand muss es beobachten, und etwas muss es betreiben.',
     cacheCostsClosing:
       'Caching tauscht wiederholte Arbeit gegen zusätzlichen Zustand, Infrastruktur und Koordination.',
+    finalMentalModelWithoutCaching: 'Ohne Caching',
+    finalMentalModelCacheHit: 'Cache-Treffer',
+    finalMentalModelExpensiveWork: 'Teure Arbeit',
+    finalMentalModelResponse: 'Antwort',
+    finalMentalModelQuestion: 'Welche Arbeit hat Redis uns erspart?',
   },
   fr: {
     episodeNumber: 'VIDÉO N° 001',
@@ -218,7 +228,7 @@ const messages = {
     cacheHitFound: 'Cette fois, Redis a déjà le résultat.',
     cacheHitDatabaseSkipped: 'La base de données est entièrement contournée.',
     cacheHitResultReturns: 'Le résultat mis en cache revient directement à l’application.',
-    cacheHitFastResponse: 'La réponse revient maintenant beaucoup plus vite — environ 8 ms après Redis.',
+    cacheHitFastResponse: 'La réponse revient maintenant beaucoup plus vite — environ 10 ms après Redis.',
     cacheHitClosing:
       "La base de données n'est pas devenue plus rapide. Nous n'en avions simplement pas besoin cette fois.",
     whyFastBridge: 'Pourquoi ce chemin est-il tellement plus rapide ?',
@@ -259,6 +269,11 @@ const messages = {
     cacheCostsOperationsCaption: 'Quelqu’un doit le surveiller, et quelque chose doit le faire fonctionner.',
     cacheCostsClosing:
       "La mise en cache échange du travail répété contre plus d'état, d'infrastructure et de coordination.",
+    finalMentalModelWithoutCaching: 'Sans mise en cache',
+    finalMentalModelCacheHit: 'Succès de cache',
+    finalMentalModelExpensiveWork: 'Travail coûteux',
+    finalMentalModelResponse: 'Réponse',
+    finalMentalModelQuestion: 'Quel travail Redis nous a-t-il permis de ne plus faire ?',
   },
 } as const;
 
