@@ -42,10 +42,16 @@ Review workflow:       established and working
 Final scene:           implemented (TASK-026), awaiting human video review
 Full-episode review:   completed by agent (TASK-027), awaiting human confirmation
 8ms/10ms discrepancy:   resolved (TASK-028) — standardized on ~10 ms
-Narration script:       drafted (TASK-028), awaiting user read-through/edit approval
-Voice tool selection:   not yet made — user must test ElevenLabs/Descript/Play.ht
-                        against src/episodes/001-redis/narration/voice-test-snippet.md
-                        and fill in narration/voice-tool-comparison.md
+Narration script:       approved (EN)
+Narration audio (EN):   integrated (TASK-029) — ONE continuous Descript file,
+                        narration/audio/en/episode-full.wav; per-scene spans are
+                        derived in narration/audio/en/scene-boundaries.json
+EN scene duration:      audio-derived (7700 frames / 256.67s); DE/FR still use
+                        author-estimated timing (6330 frames / 211.00s)
+Narration (DE/FR):      outstanding — not yet recorded
+EN narration/visual sync: only Scenes 10, 13, 14 re-timed so far (TASK-029); other
+                        scenes' beats still follow the old author-estimated timing —
+                        human review pending (see feedbacks/TASK-029.md)
 Full-episode QA:       still required
 Final render/package:  still required
 ```
@@ -53,8 +59,9 @@ Final render/package:  still required
 The episode is past per-scene production and is now in:
 
 ```text
-finalize narration script (user read-through) + voice tool selection (user testing)
--> record/generate narration audio
+EN narration integrated (TASK-029), human sync review pending
+-> re-time remaining scenes' beats to the narration (see feedbacks/TASK-029.md)
+-> DE/FR narration
 -> polish transitions/timing (see feedbacks/TASK-027.md's 10->11 transition finding)
 -> final multilingual validation
 -> final render

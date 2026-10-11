@@ -1,7 +1,10 @@
 import {Composition, Folder} from 'remotion';
 import {DevRoot} from './dev/DevRoot';
 import {RedisEpisode} from './episodes/001-redis/RedisEpisode';
-import {redisEpisodeConfig} from './episodes/001-redis/episode.config';
+import {
+  getRedisEpisodeDuration,
+  redisEpisodeConfig,
+} from './episodes/001-redis/episode.config';
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -14,6 +17,9 @@ export const RemotionRoot: React.FC = () => {
               id={`Redis-${language.toUpperCase()}`}
               component={RedisEpisode}
               durationInFrames={redisEpisodeConfig.durationInFrames}
+              calculateMetadata={({props}) => ({
+                durationInFrames: getRedisEpisodeDuration(props.language),
+              })}
               fps={redisEpisodeConfig.fps}
               width={redisEpisodeConfig.width}
               height={redisEpisodeConfig.height}

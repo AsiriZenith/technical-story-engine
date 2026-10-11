@@ -35,3 +35,21 @@ This log records known open issues that have not yet been resolved. It does not 
 **Update (TASK-025e):** The ambient-label issue itself is now **resolved** — Scene 13 was rebuilt (Option A, per TASK-025d's planning) to replace the four text-label-plus-caption callouts with per-category diagrams (a freshness countdown ring, a capacity/eviction bar, a resilience node-dim-and-reroute beat, and an operations heartbeat motif). These vignettes retire in sequence rather than settling into a lingering ambient state, so there is no longer a closing-frame state where some category labels are visible and others are hidden; this was confirmed against rendered stills at each beat (see `feedbacks/task-025e-scene13-rebuild-feedback.md`). This resolves the ambient-label issue specifically, but **does not** resolve the broader human-review gate above: Scene 13's rebuild still needs human video review before TASK-026 (Scene 14 implementation) can proceed, since implementing a fix is not the same as a human confirming it looks right on screen.
 
 **Update (TASK-026):** The user confirmed Scene 13's rebuild review before this task began, clearing the human-review gate described above. Scene 14 (the episode's final scene) has now been implemented — see `feedbacks/task-026-scene14-implementation-feedback.md`. The originally-flagged 13-vs-14 scene count mismatch from the architecture review is now fully resolved: all 14 scenes in `scenes.ts` have a corresponding implemented `.tsx` file, registered in both `episode.config.ts`'s timeline and `RedisEpisode.tsx`'s sequence list. This item can be considered closed pending Scene 14's own human video review (a separate, per-scene gate, not a reopening of this item).
+
+## 4. DE/FR narration deferred (TASK-029)
+
+**Issue:** Only EN narration exists. `Redis-DE` and `Redis-FR` keep the author-estimated scene timing (6330 frames / 211.00s) and play no narration.
+
+**What would resolve it:** A future task that records DE/FR narration as single files, derives their `scene-boundaries.json` the same way, and registers them in `episode.config.ts` (`narrationBoundaries` / `redisNarrationTracks`). Note DE/FR scenes will then also need beats re-timed to their own narration.
+
+## 5. Episode timing depends on a derived artifact: `scene-boundaries.json` (TASK-029)
+
+**Issue:** EN scene windows (and therefore total duration and every Sequence offset) are computed from `narration/audio/en/scene-boundaries.json`, which is derived from the narration audio, not authored.
+
+**Rule:** If the EN narration is ever re-recorded or re-exported, or `narration/script.md` changes materially, regenerate `scene-boundaries.json` with `scripts/derive-scene-boundaries.mjs` (whisper.cpp word-level transcript + ffmpeg silence detection, aligned to the script) and re-copy the audio to `public/episodes/001-redis/audio/narration/en/episode-full.wav`. Stale boundaries make audio and visuals silently desync. Audio is also duplicated in `public/` because Remotion's `staticFile` only serves from there.
+
+## 6. Scene beats not yet re-timed to narration (TASK-029)
+
+**Issue:** Only Scenes 10, 13 and 14 had their beat constants re-timed to the real narration. Scenes 01, 02, 03, 05, 07, 08, 11 and 12 show 1–5s offsets between key visual beats and the spoken phrase they illustrate (largest: Scenes 07 and 12). See `feedbacks/TASK-029.md`.
+
+**What would resolve it:** A follow-up task re-timing those scenes' beat constants (timing constants only) to the word-level times, after the user confirms the boundaries by ear.

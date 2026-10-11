@@ -13,29 +13,30 @@ export type Scene13CacheCostsProps = {
   debug?: boolean;
 };
 
-// Scene-relative seconds. Same 6-beat/16s timeline approved under
-// TASK-023/024; TASK-025e (Option A rebuild) only replaces what happens
-// visually inside beats 2-5, not the overall scene length or sequencing,
-// so the shared episode timeline (episode.config.ts) is unaffected.
+// Scene-relative seconds. Same 6-beat sequence approved under TASK-023/024
+// (TASK-025e replaced what happens inside beats 2-5). TASK-029 re-timed the
+// beats against the real EN narration (starts at 0s) after the scene was
+// extended from 16.0s to the audio-derived 24.7s window; comments quote the
+// spoken phrase each beat tracks.
 const beats = {
-  bridgeIn: 0.4,
-  bridgeOut: 2.4,
-  nodeIn: 2.8,
-  freshnessIn: 2.8,
-  freshnessOut: 5.6,
-  capacityIn: 6.0,
-  capacityOut: 8.4,
-  resilienceIn: 8.8,
-  resilienceOut: 11.2,
-  operationsIn: 11.6,
-  operationsOut: 14.0,
-  closingIn: 14.4,
+  bridgeIn: 0.4, // "Stale data is only one of the costs." (0.1-3.0s)
+  bridgeOut: 2.8,
+  nodeIn: 3.1,
+  freshnessIn: 3.1, // "Freshness needs expiration and invalidation." (3.1-6.5s)
+  freshnessOut: 6.4,
+  capacityIn: 6.8, // "Capacity. Memory isn't infinite." (6.7-9.6s)
+  capacityOut: 9.6,
+  resilienceIn: 9.9, // "Resilience. Misses and failures still happen." (9.8-13.5s)
+  resilienceOut: 13.5,
+  operationsIn: 13.9, // "And operations. Someone has to watch it, something has to run it." (13.8-18.6s)
+  operationsOut: 18.5,
+  closingIn: 18.9, // "Caching trades repeated work for extra state and coordination." (18.8-22.6s)
 } as const;
 
 // The closing beat's window ends exactly at the scene's own duration
-// boundary (16.0s), the same "land at the cutoff" technique Scenes 08-12
+// boundary (24.7s, audio-derived), the same "land at the cutoff" technique Scenes 08-12
 // use for their own closing lines.
-const closingEnd = 16.0;
+const closingEnd = 24.7;
 
 const easeOut = Easing.bezier(0.16, 1, 0.3, 1);
 

@@ -3,10 +3,17 @@ import {
   supportedLanguages,
   type Language,
 } from '../../shared/localization';
+import {
+  createAudioDrivenTimeline,
+  getNarrationClip,
+  type NarrationClip,
+  type SceneBoundary,
+} from '../../shared/timing/audio-duration';
 import {createSceneTimeline, type SceneWindow} from '../../shared/timing/scene-timing';
 import {redisAssetManifest, type AssetManifestEntry} from './assets';
 import {redisCharacterPlan, type CharacterPlan} from './characters';
 import {redisScenes, type RedisSceneDefinition, type RedisSceneId} from './scenes';
+import enSceneBoundaries from './narration/audio/en/scene-boundaries.json';
 import {validateEpisodeArchitecture} from './validation';
 
 export type EpisodeTrackPaths = Partial<Record<Language, string>>;
@@ -33,22 +40,41 @@ const fps = 30;
 
 export const redisPlannedSceneTimeline = createSceneTimeline(redisScenes, fps);
 
-// Implemented-scene windows, exported so RedisEpisode can place each scene's
-// <Sequence> at the right offset without duplicating the timeline math.
-export const scene01Window = redisPlannedSceneTimeline[0];
-export const scene02Window = redisPlannedSceneTimeline[1];
-export const scene03Window = redisPlannedSceneTimeline[2];
-export const scene04Window = redisPlannedSceneTimeline[3];
-export const scene05Window = redisPlannedSceneTimeline[4];
-export const scene06Window = redisPlannedSceneTimeline[5];
-export const scene07Window = redisPlannedSceneTimeline[6];
-export const scene08Window = redisPlannedSceneTimeline[7];
-export const scene09Window = redisPlannedSceneTimeline[8];
-export const scene10Window = redisPlannedSceneTimeline[9];
-export const scene11Window = redisPlannedSceneTimeline[10];
-export const scene12Window = redisPlannedSceneTimeline[11];
-export const scene13Window = redisPlannedSceneTimeline[12];
-export const scene14Window = redisPlannedSceneTimeline[13];
+// Narration sources per language. Each track is ONE continuous file in /public; its
+// per-scene spans live in the derived scene-boundaries.json beside the source audio.
+// Languages without narration yet (DE/FR) keep the author-estimated planned timeline.
+export const redisNarrationTracks = {
+  en: 'episodes/001-redis/audio/narration/en/episode-full.wav',
+} as const satisfies EpisodeTrackPaths;
+
+const narrationBoundaries: Partial<Record<Language, readonly SceneBoundary[]>> = {
+  en: enSceneBoundaries,
+};
+
+export const hasAudioDrivenTiming = (language: Language): boolean =>
+  narrationBoundaries[language] !== undefined;
+
+// Scene windows for a language: audio-derived when narration exists, planned otherwise.
+export const getRedisSceneTimeline = (
+  language: Language,
+): readonly SceneWindow<RedisSceneId>[] => {
+  const boundaries = narrationBoundaries[language];
+  return boundaries
+    ? createAudioDrivenTimeline(redisScenes, boundaries, fps)
+    : redisPlannedSceneTimeline;
+};
+
+export const getRedisEpisodeDuration = (language: Language): number =>
+  getRedisSceneTimeline(language).reduce((total, window) => total + window.duration, 0);
+
+// Frame range of the shared narration file that belongs to a scene (null: no narration).
+export const getRedisNarrationClip = (
+  language: Language,
+  sceneId: RedisSceneId,
+): NarrationClip | null => {
+  const boundary = narrationBoundaries[language]?.find((entry) => entry.sceneId === sceneId);
+  return boundary ? getNarrationClip(boundary, fps) : null;
+};
 
 export const redisArchitectureIsValid = validateEpisodeArchitecture({
   scenes: redisScenes,
@@ -64,26 +90,13 @@ export const redisEpisodeConfig = {
   fps,
   width: 1920,
   height: 1080,
-  durationInFrames:
-    scene01Window.duration +
-    scene02Window.duration +
-    scene03Window.duration +
-    scene04Window.duration +
-    scene05Window.duration +
-    scene06Window.duration +
-    scene07Window.duration +
-    scene08Window.duration +
-    scene09Window.duration +
-    scene10Window.duration +
-    scene11Window.duration +
-    scene12Window.duration +
-    scene13Window.duration +
-    scene14Window.duration,
+  // Author-estimated planned duration (DE/FR). EN is audio-derived: use getRedisEpisodeDuration.
+  durationInFrames: redisPlannedSceneTimeline.reduce((total, window) => total + window.duration, 0),
   assets: redisAssetManifest,
   scenes: redisScenes,
   plannedSceneTimeline: redisPlannedSceneTimeline,
   characters: redisCharacterPlan,
-  narrationTracks: {},
+  narrationTracks: redisNarrationTracks,
   captionTracks: {},
   metadata: {},
 } as const satisfies EpisodeConfig;

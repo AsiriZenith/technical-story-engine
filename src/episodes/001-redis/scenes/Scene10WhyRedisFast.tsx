@@ -20,20 +20,24 @@ export type Scene10WhyRedisFastProps = {
 // for the payoff beat instead of handing off to a second target -- see
 // `redisSpotlightWindow` below. Beat 0 (bridge) and Beat 5 (closing) carry
 // no spotlight, matching Scenes 08/09's own no-spotlight open/close shape.
+// TASK-029: re-timed against the real EN narration (scene-relative; narration
+// starts at 0s) after this scene was extended from 15.0s to the audio-derived
+// 19.5s window. Beat comments quote the spoken phrase each beat tracks.
+const sceneEndSeconds = 19.5;
 const beats = {
-  bridgeIn: 0.4,
+  bridgeIn: 0.4, // "Why is that so much faster?" (0.1-2.2s)
   bridgeOut: 2.0,
-  preparedResultIn: 2.4,
+  preparedResultIn: 2.4, // "Redis already holds the prepared result." (2.3-5.0s)
   preparedResultOut: 5.0,
-  simpleLookupIn: 5.4,
-  simpleLookupOut: 7.8,
-  inMemoryIn: 8.2,
-  inMemoryOut: 10.4,
-  workAvoidedIn: 10.8,
-  workAvoidedOut: 13.6,
-  modernDbIn: 13.9,
-  modernDbOut: 14.3,
-  closingIn: 14.5,
+  simpleLookupIn: 5.3, // "A simple, direct lookup, not a query." (5.0-8.3s)
+  simpleLookupOut: 8.1,
+  inMemoryIn: 8.5, // "Yes, that's in memory, and memory helps." (8.4-11.4s)
+  inMemoryOut: 11.3,
+  workAvoidedIn: 11.7, // "But the real reason is that the expensive database work ..." (11.6-17.0s)
+  workAvoidedOut: 16.3,
+  modernDbIn: 16.6, // supplemental beat; not in the narration, kept brief after the payoff line
+  modernDbOut: 17.2,
+  closingIn: 17.5,
 } as const;
 
 // The single continuous Redis spotlight window: fades in at the start of
@@ -51,12 +55,11 @@ const redisSpotlightWindow = {
 
 // Caption windows are independent of the spotlight window but stay close to
 // it so text and highlight never desync (same relationship Scenes 08/09
-// use). The closing beat's budget is tight (scene ends at 15.0s and "work
-// avoided" runs until 13.6s), so `whyFastClosing` uses a concise equivalent
+// use). The closing beat's budget is tight ("work avoided" runs until 16.3s), so `whyFastClosing` uses a concise equivalent
 // of the task's full closing line rather than the longer original -- see
 // Section 9/10 of the feedback report for the exact wording decision. The
 // closing caption's `end` lands exactly at the scene's own duration boundary
-// (15.0s) so it never visibly fades before the hard Sequence cut, the same
+// (`sceneEndSeconds`) so it never visibly fades before the hard Sequence cut, the same
 // technique Scene 08/09 use for their own closing captions.
 const captionWindows = {
   bridge: {start: beats.bridgeIn, end: beats.bridgeOut, fadeIn: 0.5, fadeOut: 0.4},
@@ -65,7 +68,7 @@ const captionWindows = {
   inMemory: {start: beats.inMemoryIn, end: beats.inMemoryOut, fadeIn: 0.35, fadeOut: 0.35},
   workAvoided: {start: beats.workAvoidedIn, end: beats.workAvoidedOut, fadeIn: 0.35, fadeOut: 0.35},
   modernDbMemory: {start: beats.modernDbIn, end: beats.modernDbOut, fadeIn: 0.3, fadeOut: 0.3},
-  closing: {start: beats.closingIn, end: 15.0, fadeIn: 0.3, fadeOut: 0.4},
+  closing: {start: beats.closingIn, end: sceneEndSeconds, fadeIn: 0.3, fadeOut: 0.4},
 } as const;
 
 const easeOut = Easing.bezier(0.16, 1, 0.3, 1);

@@ -1,0 +1,72 @@
+[
+  {
+    "sceneId": "01-mystery",
+    "startSeconds": 0,
+    "endSeconds": 17.67
+  },
+  {
+    "sceneId": "02-latency-breakdown",
+    "startSeconds": 17.67,
+    "endSeconds": 33.1
+  },
+  {
+    "sceneId": "03-database-speed-misconception",
+    "startSeconds": 33.1,
+    "endSeconds": 47.96
+  },
+  {
+    "sceneId": "04-original-request-path",
+    "startSeconds": 47.96,
+    "endSeconds": 62.5
+  },
+  {
+    "sceneId": "05-restaurant-repeat-work",
+    "startSeconds": 62.5,
+    "endSeconds": 75.58
+  },
+  {
+    "sceneId": "06-ready-order-cache",
+    "startSeconds": 75.58,
+    "endSeconds": 89.74
+  },
+  {
+    "sceneId": "07-restaurant-to-architecture",
+    "startSeconds": 89.74,
+    "endSeconds": 112.49
+  },
+  {
+    "sceneId": "08-cache-miss",
+    "startSeconds": 112.49,
+    "endSeconds": 129.72
+  },
+  {
+    "sceneId": "09-cache-hit",
+    "startSeconds": 129.72,
+    "endSeconds": 143.66
+  },
+  {
+    "sceneId": "10-why-redis-fast",
+    "startSeconds": 143.66,
+    "endSeconds": 161.16
+  },
+  {
+    "sceneId": "11-cache-everything",
+    "startSeconds": 161.16,
+    "endSeconds": 172.79
+  },
+  {
+    "sceneId": "12-stale-cache",
+    "startSeconds": 172.79,
+    "endSeconds": 188.87
+  },
+  {
+    "sceneId": "13-cache-tradeoffs",
+    "startSeconds": 188.87,
+    "endSeconds": 211.56
+  },
+  {
+    "sceneId": "14-final-mental-model",
+    "startSeconds": 211.56,
+    "endSeconds": 230.32
+  }
+]

@@ -15,10 +15,12 @@ export type RedisSceneDefinition = {
 const sharedWindow = (
   targetSeconds: number,
   localizationMarginSeconds = 1,
+  narrationFit?: SceneDurationStrategy['narrationFit'],
 ): SceneDurationStrategy => ({
   kind: 'shared-window',
   targetSeconds,
   localizationMarginSeconds,
+  ...(narrationFit ? {narrationFit} : {}),
 });
 
 export const redisScenes = [
@@ -178,7 +180,7 @@ export const redisScenes = [
     order: 10,
     workingTitle: 'Why Redis Can Be Fast',
     purpose: 'Explain fast cache hits without reducing the comparison to RAM versus disk.',
-    durationStrategy: sharedWindow(13, 2),
+    durationStrategy: sharedWindow(13, 2, 'extend'),
     assetIds: ['scene07TechnicalArchitecture'],
     storyBeats: [
       'Already prepared result',
@@ -239,7 +241,7 @@ export const redisScenes = [
     order: 13,
     workingTitle: 'Cost of Caching',
     purpose: 'Introduce the operational and design costs that accompany caching.',
-    durationStrategy: sharedWindow(14, 2),
+    durationStrategy: sharedWindow(14, 2, 'extend'),
     assetIds: [],
     storyBeats: [
       'And stale data is only one of the costs.',
@@ -261,7 +263,7 @@ export const redisScenes = [
     order: 14,
     workingTitle: 'Final Mental Model',
     purpose: 'Leave viewers with the correct question to ask about any cache.',
-    durationStrategy: sharedWindow(12, 2),
+    durationStrategy: sharedWindow(12, 2, 'extend'),
     assetIds: [],
     storyBeats: [
       'Without caching: Request -> Application -> Database -> expensive work -> Response',

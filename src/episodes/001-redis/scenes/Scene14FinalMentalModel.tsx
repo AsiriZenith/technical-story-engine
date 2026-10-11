@@ -20,24 +20,27 @@ export type Scene14FinalMentalModelProps = {
 // Scene 01's node/packet diagram, replayed as the episode's closing
 // bookend -- first the slow (uncached) path, then the fast (cache-hit)
 // path, then the closing question.
+// TASK-029: re-timed against the real EN narration (scene-relative; narration
+// starts at 0s) after this scene was extended from 14.0s to the audio-derived
+// 20.77s window. Comments quote the spoken phrase each beat tracks.
 const beats = {
-  diagramIn: 0.4,
-  withoutCachingIn: 0.85,
-  slowPacketStart: 1.3,
-  slowPacketAppArrive: 2.3,
-  slowPacketDbArrive: 3.5,
-  expensiveWorkIn: 3.5,
-  expensiveWorkOut: 4.6,
-  slowResponseIn: 4.6,
-  slowGroupOut: 5.6,
-  redisIn: 5.7,
-  cacheHitIn: 6.3,
-  fastPacketStart: 6.7,
-  fastPacketAppArrive: 7.2,
-  fastPacketRedisArrive: 7.7,
-  fastResponseIn: 7.8,
-  fastGroupOut: 8.9,
-  questionIn: 10.0,
+  diagramIn: 0.5, // "Here's the mental model to keep." (0.1-2.3s)
+  withoutCachingIn: 2.3, // "Without caching," (2.4s)
+  slowPacketStart: 3.1,
+  slowPacketAppArrive: 3.9, // "application," (3.8s)
+  slowPacketDbArrive: 5.0, // "database," (4.9s)
+  expensiveWorkIn: 5.0,
+  expensiveWorkOut: 6.9, // "expensive work," (5.8-7.0s)
+  slowResponseIn: 7.1, // "response." (7.2s)
+  slowGroupOut: 8.3,
+  redisIn: 8.4,
+  cacheHitIn: 8.6, // "With a cache hit," (8.4s)
+  fastPacketStart: 9.3,
+  fastPacketAppArrive: 10.1, // "application," (10.0s)
+  fastPacketRedisArrive: 11.2, // "straight to Redis," (11.1s)
+  fastResponseIn: 12.4, // "and back." (12.4s)
+  fastGroupOut: 13.8,
+  questionIn: 14.5, // "The real question to ask about any cache." (13.4s) ... "What work did it let you stop doing?" (16.3s)
 } as const;
 
 // The closing question holds through the scene's own duration boundary --

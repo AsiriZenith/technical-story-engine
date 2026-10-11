@@ -1,20 +1,9 @@
-import {Sequence} from 'remotion';
+import {Audio, Sequence, staticFile} from 'remotion';
 import type {Language} from '../../shared/localization';
 import {
-  scene01Window,
-  scene02Window,
-  scene03Window,
-  scene04Window,
-  scene05Window,
-  scene06Window,
-  scene07Window,
-  scene08Window,
-  scene09Window,
-  scene10Window,
-  scene11Window,
-  scene12Window,
-  scene13Window,
-  scene14Window,
+  getRedisNarrationClip,
+  getRedisSceneTimeline,
+  redisNarrationTracks,
 } from './episode.config';
 import {Scene01Mystery} from './scenes/Scene01Mystery';
 import {Scene02LatencyBreakdown} from './scenes/Scene02LatencyBreakdown';
@@ -36,8 +25,47 @@ export type RedisEpisodeProps = {
 };
 
 export const RedisEpisode: React.FC<RedisEpisodeProps> = ({language}) => {
+  const [
+    scene01Window,
+    scene02Window,
+    scene03Window,
+    scene04Window,
+    scene05Window,
+    scene06Window,
+    scene07Window,
+    scene08Window,
+    scene09Window,
+    scene10Window,
+    scene11Window,
+    scene12Window,
+    scene13Window,
+    scene14Window,
+  ] = getRedisSceneTimeline(language);
+  const narrationTrack = redisNarrationTracks[language as keyof typeof redisNarrationTracks];
+
   return (
     <>
+      {narrationTrack
+        ? getRedisSceneTimeline(language).map((window) => {
+            const clip = getRedisNarrationClip(language, window.sceneId);
+            return clip ? (
+              // One shared narration file; each scene plays its own span from its first
+              // frame, so audio and visuals re-anchor at every scene boundary.
+              <Sequence
+                key={window.sceneId}
+                name={`Narration ${window.sceneId}`}
+                from={window.start}
+                durationInFrames={window.duration}
+              >
+                <Audio
+                  src={staticFile(narrationTrack)}
+                  trimBefore={clip.trimBeforeFrames}
+                  trimAfter={clip.trimAfterFrames}
+                />
+              </Sequence>
+            ) : null;
+          })
+        : null}
       <Sequence
         name="Scene 01 — Mystery"
         from={scene01Window.start}

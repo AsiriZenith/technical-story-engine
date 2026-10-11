@@ -2,6 +2,10 @@ export type SceneDurationStrategy = {
   kind: 'shared-window';
   targetSeconds: number;
   localizationMarginSeconds: number;
+  // How audio-driven timing treats this scene when real narration exists.
+  // 'longer-of' (default): max(targetSeconds, narration + margin).
+  // 'extend': always narration + margin, even when the visual target is shorter/longer.
+  narrationFit?: 'longer-of' | 'extend';
 };
 
 export type TimedScene = {

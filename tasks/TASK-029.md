@@ -1,105 +1,123 @@
-# TASK-029
+# TASK-029 (revised — single-file narration)
 
 ## Why
 
-Script is approved (`narration/script.md`, as edited/finalized by the user)
-and the voice tool is decided: **Descript**. Per the user's decision, Scenes
-10, 13, and 14 will have their visual duration **extended** to fit the
-narration naturally, rather than trimming the script further. This task
-generates the actual narration audio and wires it into the Remotion
-timeline, replacing the author-estimated scene durations with audio-derived
-ones.
+Script is approved (`narration/script.md`). Voice tool: Descript. The user
+generated **one continuous narration audio file for the whole episode**,
+not per-scene clips — Descript's export doesn't support per-scene splitting
+cost-effectively. This supersedes the original TASK-029, which assumed
+per-scene files; that version was never executed, so this replaces it
+outright, not a follow-up patch.
 
-## Step 1 — Generate narration audio in Descript
+The file is at:
 
-This step needs the user, not the agent — Descript's voice cloning/
-generation is a manual web action. Confirm with the user whether the audio
-files already exist before starting; if not, pause here and ask the user to:
+```
+D:\my works\video-lab\technical-story-engine\src\episodes\001-redis\narration\audio\en\Redis-Accelerated API Latency Mystery.wav
+```
 
-1. Generate one audio file per scene (or one continuous file, if Descript's
-   workflow makes per-scene export easier — ask the user which they produced)
-   from the approved `script.md`, using their chosen Descript voice.
-2. Export as `.wav` or `.mp3` and place under:
-   ```
-   src/episodes/001-redis/narration/audio/en/scene-01.mp3
-   src/episodes/001-redis/narration/audio/en/scene-02.mp3
-   ...
-   src/episodes/001-redis/narration/audio/en/scene-14.mp3
-   ```
-   (English only for now — DE/FR narration is out of scope for this task;
-   see `decisions.md` note in Step 6.)
+## Step 1 — Normalize the filename and location
 
-Do not proceed to Step 2 until these files exist and their path is
-confirmed.
+Rename/copy to a stable, script-safe filename (the current name has spaces
+and is awkward to reference in code):
 
-## Step 2 — Add audio-driven duration support
+```
+src/episodes/001-redis/narration/audio/en/episode-full.wav
+```
 
-This is the core architectural change flagged since the original
-architecture review (Recommendation 8): duration should be measured from
-real narration, not author-estimated.
+Keep the original as-is if the user wants it preserved; copying rather than
+moving is fine.
 
-- Add a `getAudioDurationInSeconds` (from `@remotion/media-utils`) based
-  helper, e.g. `shared/timing/audio-duration.ts`, that resolves each scene's
-  actual narration length.
-- Introduce `calculateMetadata` on the `Redis-EN` composition (see Remotion's
-  dynamic-duration pattern) so the composition's total duration is computed
-  from the sum of real per-scene audio durations plus each scene's existing
-  `localizationMarginSeconds`, rather than the current author-estimated
-  `targetSeconds` in `scenes.ts`.
-- For Scenes 10, 13, and 14 specifically: per the user's decision, let their
-  visual duration extend to match their real narration length (do not trim
-  or speed up narration to fit the old window). Other scenes should use
-  whichever is longer — the existing visual `targetSeconds` or the real
-  narration length plus margin — so a shorter-than-expected narration doesn't
-  awkwardly shrink an already-tuned scene.
-- Keep this audio-driven path EN-only for now, consistent with Step 1's
-  scope; DE/FR should continue using their current author-estimated timing
-  until their own narration exists (do not break DE/FR compositions).
+## Step 2 — Determine per-scene boundaries within the single file
 
-## Step 3 — Wire `<Audio>` into the episode
+Since there is one continuous file, each scene's start/end timestamp within
+it must be derived, not assumed. Use word-level transcription + alignment:
 
-- Add `<Audio>` components per scene in `RedisEpisode.tsx`, sourcing each
-  scene's narration file, positioned within that scene's `<Sequence>` so
-  timing stays scene-relative (per the existing `createSceneTimeline`
-  convention — do not hardcode global frame offsets).
-- Populate `episode.config.ts`'s `narrationTracks` (currently `{}`) with the
-  EN audio paths.
+1. Run a local transcription tool capable of word-level timestamps (e.g.
+   `whisper` with `--word_timestamps True`, or `whisperx` if available) on
+   `episode-full.wav`. Check what's already installed before adding a new
+   dependency.
+2. Align the transcript against `narration/script.md`'s per-scene text,
+   matching each scene's known script text to a contiguous span of
+   transcribed words, to determine each scene's **start time** and **end
+   time** (in seconds) within the single file.
+3. Write the result to a new file,
+   `narration/audio/en/scene-boundaries.json`, as an array of
+   `{ sceneId, startSeconds, endSeconds }` entries for all 14 scenes.
+4. **Sanity-check this output before trusting it**: the sum of each scene's
+   `(endSeconds - startSeconds)` should roughly match the per-scene word
+   counts already estimated in TASK-028's feedback (~2.3 words/sec). Flag any
+   scene whose derived duration looks implausible (e.g. off by more than
+   ~30% from that estimate) rather than silently proceeding — alignment
+   errors are the main risk in this approach.
 
-## Step 4 — Re-tune affected scene visuals
+If alignment confidence is low for any scene (ambiguous boundary, e.g. very
+short transitional phrases), report this clearly in feedback rather than
+guessing — the user can confirm/correct boundaries by ear if needed.
 
-For Scenes 10, 13, and 14 (the ones being extended): check whether any
-animation currently timed against the *old* fixed duration (e.g. a
-`windowOpacity` fade-out anchored to the previous `closingEnd`) needs its
-timing constant adjusted so it doesn't fire too early now that the scene is
-longer. Do not redesign these scenes' visuals — only adjust timing constants
-so existing animations still land correctly against the new, longer window.
+## Step 3 — Add audio-driven duration support
 
-## Step 5 — Verify
+Same architectural goal as the original TASK-029, adapted for a single
+source file:
+
+- Add a helper (e.g. `shared/timing/audio-duration.ts`) that reads
+  `scene-boundaries.json` and returns each scene's real narration duration
+  (`endSeconds - startSeconds`), rather than using `getAudioDurationInSeconds`
+  per-file (not applicable here, since there's one shared file).
+- Introduce `calculateMetadata` on the `Redis-EN` composition so total
+  duration is computed from the sum of real per-scene durations (from
+  `scene-boundaries.json`) plus each scene's existing
+  `localizationMarginSeconds`, replacing the author-estimated `targetSeconds`
+  in `scenes.ts` for EN.
+- Per the user's standing decision: Scenes 10, 13, and 14 extend to fit their
+  real narration length. Other scenes use whichever is longer — existing
+  visual `targetSeconds` or real narration length plus margin.
+- Keep this EN-only; DE/FR continue using author-estimated timing until their
+  own narration exists (do not break DE/FR compositions).
+
+## Step 4 — Wire `<Audio>` into the episode (single-file approach)
+
+- Add **one** `<Audio>` component for the whole `Redis-EN` composition
+  (sourcing `episode-full.wav`), rather than one per scene — using
+  `startFrom`/`endAt` (or trimming) is not even needed, since the single
+  track plays continuously under the whole episode once scene durations are
+  derived from it correctly in Step 3. The key correctness requirement: each
+  scene's `<Sequence>` duration (from Step 3) must match that scene's actual
+  span in the audio, so visuals and narration stay in sync as one continuous
+  timeline — not click-track-synced per scene.
+- Populate `episode.config.ts`'s `narrationTracks.en` with the single file
+  path.
+
+## Step 5 — Re-tune affected scene visuals
+
+For Scenes 10, 13, and 14 (extended scenes): check whether any animation
+timed against the old fixed duration needs its timing constant adjusted so
+it doesn't fire too early against the new, longer window. Only adjust timing
+constants — do not redesign visuals.
+
+## Step 6 — Verify
 
 - `npm run typecheck`
-- `npm run compositions` — report the new total episode duration (previously
-  6330 frames / 211.00s with author-estimated timing) now that EN duration is
-  audio-derived.
+- `npm run compositions` — report new total EN duration (previously 6330
+  frames / 211.00s with author-estimated timing).
 - Render the full `Redis-EN` episode with narration to:
   ```
   renders/review/TASK-029/redis-en-with-narration.mp4
   ```
-  per the established renders/review convention (kept, not deleted).
-- Self-review specifically for narration/visual sync: does each scene's key
-  visual beat (e.g. the "10 ms" reveal, the cache-hit/miss diagrams) land at
-  roughly the right moment relative to what's being said, not just that the
-  overall scene duration matches. Flag any scene where sync feels off even
-  though duration matches.
+- Self-review for narration/visual sync, scene by scene: does each scene's
+  key visual beat land at roughly the right moment relative to the derived
+  audio boundaries. Explicitly flag any scene where Step 2's alignment looked
+  uncertain, so the human reviewer knows where to listen most carefully.
 
-## Step 6 — Update storyboard and decisions
+## Step 7 — Update storyboard and decisions
 
-- `storyboard/README.md`: note narration is now integrated (EN only),
-  duration is audio-derived for EN, and DE/FR narration remains outstanding.
-- `decisions.md`: add a note that DE/FR narration and audio-driven timing for
-  those languages is deferred to a future task (per the original sequence's
-  TASK-031 multilingual validation step), not silently forgotten.
+- `storyboard/README.md`: narration integrated (EN only, single-file source),
+  duration audio-derived for EN; DE/FR narration outstanding.
+- `decisions.md`: note (a) DE/FR narration deferred to a future task, and
+  (b) the episode now depends on `scene-boundaries.json` as a derived
+  artifact — if the narration audio is ever re-recorded/re-exported, this
+  file must be regenerated, since scene timing now depends on it.
 
-## Step 7 — Write feedback
+## Step 8 — Write feedback
 
 Write to:
 
@@ -107,10 +125,9 @@ Write to:
 D:\my works\video-lab\technical-story-engine\feedbacks\TASK-029.md
 ```
 
-Include: confirmation of the audio files used, the new audio-derived
-duration vs. the old estimated one, which scenes' timing constants needed
-adjustment in Step 4, the narration/visual sync self-review findings, and a
-Human Review Request pointing at the rendered file from Step 5.
-
-Do not proceed past Step 1 without confirming the narration audio actually
-exists at the expected path.
+Include: the derived scene boundaries (table of scene/start/end/duration),
+any low-confidence alignments flagged, the new audio-derived total duration,
+which scenes' timing constants needed adjustment, narration/visual sync
+self-review findings per scene, and a Human Review Request pointing at the
+rendered file — explicitly asking the user to listen for any audio/visual
+desync, since that's the main risk this single-file approach introduces.
