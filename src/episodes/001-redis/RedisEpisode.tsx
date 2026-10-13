@@ -1,9 +1,20 @@
-import {Audio, Sequence, staticFile} from 'remotion';
+import {Audio, Loop, Sequence, staticFile} from 'remotion';
+import {
+  buildDuckingKeyframes,
+  defaultDuckingConfig,
+  getMusicVolume,
+} from '../../shared/audio/music-ducking';
 import type {Language} from '../../shared/localization';
 import {
+  getRedisEpisodeDuration,
   getRedisNarrationClip,
+  getRedisNarrationSpans,
   getRedisSceneTimeline,
+  redisAccentSfx,
+  redisAccentSfx,
+  redisMusicTrack,
   redisNarrationTracks,
+  redisSfxSounds,
 } from './episode.config';
 import {Scene01Mystery} from './scenes/Scene01Mystery';
 import {Scene02LatencyBreakdown} from './scenes/Scene02LatencyBreakdown';
@@ -22,9 +33,29 @@ import {Scene14FinalMentalModel} from './scenes/Scene14FinalMentalModel';
 
 export type RedisEpisodeProps = {
   language: Language;
+  // Set false (via --props) to render music/narration only, without accent SFX.
+  accentSfx?: boolean;
 };
 
-export const RedisEpisode: React.FC<RedisEpisodeProps> = ({language}) => {
+// Music loops; inside <Loop> the frame restarts each iteration, so rebuild the absolute episode
+// frame before sampling the ducking envelope.
+const MusicTrack: React.FC<{language: Language}> = ({language}) => {
+  const loop = Loop.useLoop();
+  const keyframes = buildDuckingKeyframes(getRedisNarrationSpans(language), defaultDuckingConfig);
+  const totalFrames = getRedisEpisodeDuration(language);
+  const offset = loop ? loop.iteration * loop.durationInFrames : 0;
+
+  return (
+    <Audio
+      src={staticFile(redisMusicTrack.src)}
+      volume={(frame) =>
+        getMusicVolume(frame + offset, totalFrames, keyframes, defaultDuckingConfig)
+      }
+    />
+  );
+};
+
+export const RedisEpisode: React.FC<RedisEpisodeProps> = ({language, accentSfx = true}) => {
   const [
     scene01Window,
     scene02Window,
@@ -62,6 +93,43 @@ export const RedisEpisode: React.FC<RedisEpisodeProps> = ({language}) => {
                   trimBefore={clip.trimBeforeFrames}
                   trimAfter={clip.trimAfterFrames}
                 />
+              </Sequence>
+            ) : null;
+          })
+        : null}
+      {narrationTrack ? (
+        <Loop name="Music" durationInFrames={redisMusicTrack.durationInFrames}>
+          <MusicTrack language={language} />
+        </Loop>
+      ) : null}
+      {narrationTrack && accentSfx
+        ? redisAccentSfx.map((accent, index) => {
+            const window = getRedisSceneTimeline(language).find((w) => w.sceneId === accent.sceneId);
+            const sound = redisSfxSounds[accent.sound];
+            return window ? (
+              <Sequence
+                key={`sfx-${index}`}
+                name={`SFX ${accent.sound} ${accent.sceneId}`}
+                from={window.start + Math.round(accent.seconds * 30)}
+                durationInFrames={sound.durationInFrames}
+              >
+                <Audio src={staticFile(sound.src)} volume={sound.volume} />
+              </Sequence>
+            ) : null;
+          })
+        : null}
+      {narrationTrack
+        ? redisAccentSfx.map((accent, index) => {
+            const window = getRedisSceneTimeline(language).find((w) => w.sceneId === accent.sceneId);
+            const sound = redisSfxSounds[accent.sound];
+            return window ? (
+              <Sequence
+                key={}
+                name={}
+                from={window.start + Math.round(accent.seconds * 30)}
+                durationInFrames={sound.durationInFrames}
+              >
+                <Audio src={staticFile(sound.src)} volume={sound.volume} />
               </Sequence>
             ) : null;
           })

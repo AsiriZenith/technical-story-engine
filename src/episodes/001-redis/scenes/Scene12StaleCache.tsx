@@ -13,8 +13,9 @@ export type Scene12StaleCacheProps = {
 };
 
 // Scene-relative seconds, per the TASK-021/022-approved 6-beat plan. Fully
-// Remotion-native (Option D from TASK-021), continuing Scene 11's no-image
-// visual language with a second use case: a two-card Database-vs-Redis
+// Remotion-native (Option D from TASK-021), no-image like Scene 11 (now the
+// TASK-020A pile diagram; this scene stays typography-driven) with a second
+// use case: a two-card Database-vs-Redis
 // value comparison, both cards held on screen together so the divergence
 // is simultaneous, not just narrated.
 const beats = {

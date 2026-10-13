@@ -200,7 +200,7 @@ export const redisScenes = [
     order: 11,
     workingTitle: 'Cache Everything',
     purpose: 'Set up the tempting overgeneralization before introducing correctness costs.',
-    durationStrategy: sharedWindow(9, 2),
+    durationStrategy: sharedWindow(11, 2),
     assetIds: [],
     storyBeats: [
       'So... why not avoid repeated work everywhere?',
@@ -210,9 +210,9 @@ export const redisScenes = [
       'Cache where avoiding repeated expensive work is worth the tradeoff.',
     ],
     visualNotes: [
-      'Fully Remotion-native, typography-driven scene -- no image asset, no SpotlightImage. Scene 01 is the visual precedent: centered Interactive.Div text blocks, typography tokens, theme colors, and the existing motionPresets/interpolate() vocabulary.',
+      'Fully Remotion-native, no image asset (TASK-020A Option A, "the pile"): one Redis stack node; a stream of request dots piles up as cached entries. Memory / stale / sync show up on that same pile (overflowing capacity frame, hollow warning-outline entries, tether lines to a Database cylinder). Beat 4 sorts requests: light ones bypass the cache, one heavy repeated one is cached. Beats 1, 2, 5 stay typographic.',
       'The only humorous beat ("CACHE EVERYTHING!" -> "Not so fast.") is purely typographic: no character illustration, no new asset. The formerly-listed developer placeholder asset is intentionally not used.',
-      'Costs (memory / stale data / invalidation) and the "not every request qualifies" point are each a single plain sentence, not cards/chips/badges, to avoid a checklist-slide feel.',
+      'TASK-020A Option A ("the pile"): one Redis stack node; a stream of request dots piles up as cached entries. Memory / stale / sync show up on that same pile (overflowing capacity frame, hollow warning-outline entries, tether lines to a Database cylinder). Beat 4 sorts requests: light ones bypass the cache, one heavy repeated one is cached. The costs and "not every request" sentences stay as captions under the diagram. Deliberately distinct from Scene 13\'s bar/ring/reroute/heartbeat motifs so Scene 13 still lands as new.',
     ],
   },
   {
@@ -231,7 +231,7 @@ export const redisScenes = [
       'Caching reuses old work. That is also how it can become stale.',
     ],
     visualNotes: [
-      'Fully Remotion-native, typography-driven scene -- no image asset, no SpotlightImage. Continues Scene 11\'s Option D visual language with a second concrete use case: a two-card Database-vs-Redis value comparison, both cards held on screen together so the divergence is simultaneous, not just narrated.',
+      'Fully Remotion-native, typography-driven scene -- no image asset, no SpotlightImage. Stays no-image like Scene 11 (now the TASK-020A Option A pile diagram), but this scene itself is typography-driven, with a second concrete use case: a two-card Database-vs-Redis value comparison, both cards held on screen together so the divergence is simultaneous, not just narrated.',
       'The Alice email example (alice.new@example.com / alice.old@example.com) already established in the outline is used unchanged. Values are not translated.',
       'The only humorous beat ("Wrong answer. Very fast.") is purely typographic, calm and wry, not a large comedic spectacle. The formerly-listed alicePortrait placeholder asset is intentionally not used.',
     ],
@@ -241,7 +241,7 @@ export const redisScenes = [
     order: 13,
     workingTitle: 'Cost of Caching',
     purpose: 'Introduce the operational and design costs that accompany caching.',
-    durationStrategy: sharedWindow(14, 2, 'extend'),
+    durationStrategy: sharedWindow(22.7, 2, 'extend'),
     assetIds: [],
     storyBeats: [
       'And stale data is only one of the costs.',
@@ -263,7 +263,7 @@ export const redisScenes = [
     order: 14,
     workingTitle: 'Final Mental Model',
     purpose: 'Leave viewers with the correct question to ask about any cache.',
-    durationStrategy: sharedWindow(12, 2, 'extend'),
+    durationStrategy: sharedWindow(19, 2, 'extend'),
     assetIds: [],
     storyBeats: [
       'Without caching: Request -> Application -> Database -> expensive work -> Response',

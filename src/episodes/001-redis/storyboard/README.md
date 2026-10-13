@@ -26,7 +26,7 @@ The episode deliberately avoids the simplistic explanation "Redis is fast becaus
 | 08 | Cache Miss | Implemented, PASS | [scene-08-cache-miss.md](scenes/scene-08-cache-miss.md) |
 | 09 | Cache Hit | Implemented, PASS | [scene-09-cache-hit.md](scenes/scene-09-cache-hit.md) |
 | 10 | Why Redis Can Be Fast | Implemented, PASS | [scene-10-why-redis-fast.md](scenes/scene-10-why-redis-fast.md) |
-| 11 | Cache Everything? | Implemented, PASS | [scene-11-should-we-cache-everything.md](scenes/scene-11-should-we-cache-everything.md) |
+| 11 | Cache Everything? | Implemented, human approved (TASK-020A pile diagram) | [scene-11-should-we-cache-everything.md](scenes/scene-11-should-we-cache-everything.md) |
 | 12 | Stale Cache | Implemented, PASS | [scene-12-stale-cache.md](scenes/scene-12-stale-cache.md) |
 | 13 | Cost of Caching | Implemented, TASK-024 PASS, human review pending | [scene-13-cache-tradeoffs.md](scenes/scene-13-cache-tradeoffs.md) |
 | 14 | Final Mental Model | Implemented, awaiting human video review | [scene-14-final-mental-model.md](scenes/scene-14-final-mental-model.md) |
@@ -47,7 +47,10 @@ Narration audio (EN):   integrated (TASK-029) — ONE continuous Descript file,
                         narration/audio/en/episode-full.wav; per-scene spans are
                         derived in narration/audio/en/scene-boundaries.json
 EN scene duration:      audio-derived (7700 frames / 256.67s); DE/FR still use
-                        author-estimated timing (6330 frames / 211.00s)
+                        author-estimated timing (6861 frames / 228.70s)
+Music + ducking (EN):   integrated (TASK-030, retuned TASK-030B) — texture-only pad,
+                        looped, ducked under narration; mix quality pending human listen
+Accent SFX (EN):        7 placements, first pass (TASK-030B), pending human approval
 Narration (DE/FR):      outstanding — not yet recorded
 EN narration/visual sync: only Scenes 10, 13, 14 re-timed so far (TASK-029); other
                         scenes' beats still follow the old author-estimated timing —

@@ -38,7 +38,7 @@ This log records known open issues that have not yet been resolved. It does not 
 
 ## 4. DE/FR narration deferred (TASK-029)
 
-**Issue:** Only EN narration exists. `Redis-DE` and `Redis-FR` keep the author-estimated scene timing (6330 frames / 211.00s) and play no narration.
+**Issue:** Only EN narration exists. `Redis-DE` and `Redis-FR` keep the author-estimated scene timing (6861 frames / 228.70s after TASK-020C; was 6330 / 211.00s) and play no narration.
 
 **What would resolve it:** A future task that records DE/FR narration as single files, derives their `scene-boundaries.json` the same way, and registers them in `episode.config.ts` (`narrationBoundaries` / `redisNarrationTracks`). Note DE/FR scenes will then also need beats re-timed to their own narration.
 
@@ -53,3 +53,25 @@ This log records known open issues that have not yet been resolved. It does not 
 **Issue:** Only Scenes 10, 13 and 14 had their beat constants re-timed to the real narration. Scenes 01, 02, 03, 05, 07, 08, 11 and 12 show 1–5s offsets between key visual beats and the spoken phrase they illustrate (largest: Scenes 07 and 12). See `feedbacks/TASK-029.md`.
 
 **What would resolve it:** A follow-up task re-timing those scenes' beat constants (timing constants only) to the word-level times, after the user confirms the boundaries by ear.
+
+## 7. DE/FR planned windows for Scenes 13 and 14 were shorter than their beats (found TASK-020B, fixed TASK-020C)
+
+**Bug:** DE/FR have no narration, so they use author-estimated windows. Scene 13's planned window (`sharedWindow(14, 2, 'extend')` = 16s) and Scene 14's (`sharedWindow(12, 2, 'extend')` = 14s) were shorter than the beats TASK-029 re-timed to the EN narration (Scene 13 runs to 24.7s, closing at 18.9s; Scene 14's closing question appears at 14.5s). DE/FR hard-cut mid-scene: Scene 13 stopped during the Operations beat and never showed its closing line; Scene 14 stopped during the cache-hit diagram and never showed its closing question. Confirmed with stills (`renders/review/TASK-020C/before-*`).
+
+**Pre-existing:** introduced by TASK-029's EN re-timing, not by Scene 11's changes (Scene 11's +2s DE/FR shift only moved where the cut happened). EN was never affected (audio-derived windows).
+
+**Fix:** Scene 13 -> `sharedWindow(22.7, 2, 'extend')` (24.7s, exactly the EN window and `closingEnd`); Scene 14 -> `sharedWindow(19, 2, 'extend')` (21s, close to EN's 20.77s). DE/FR now 6861 frames / 228.70s (was 6390); EN unchanged at 7700.
+
+**Re-verify later:** these values match the *EN-timed* beats and are author estimates for DE/FR. When real DE/FR narration exists, those scenes need their own audio-derived timing pass (TASK-031 multilingual validation, item 4 above) and these numbers should be replaced by derived windows.
+
+## 8. `audio-ducking` — RESOLVED (TASK-030), mix quality not yet confirmed by ear
+
+**Resolved:** Background music (`narration/audio/music/background.mp3`, served from `public/episodes/001-redis/audio/music/`) is wired in `RedisEpisode.tsx` as a looped `<Audio>` with a ducking envelope from `src/shared/audio/music-ducking.ts`. Resting volume 0.10, ducked 0.04 while a scene's narration clip plays (9-frame attack, 24-frame release), plus one 2s fade-in / 3s fade-out over the whole episode. EN only, matching narration.
+
+**Still open:** The agent cannot listen. The envelope was verified numerically at scene boundaries, not by ear. Human review of loudness, ducking smoothness and the loop seam (track is 224.4s, episode 256.67s, so it wraps once near 224s) is pending — see `feedbacks/TASK-030.md`. Volumes are constants in `defaultDuckingConfig`.
+
+## 9. Music swapped to texture-only pad; volumes lowered; accent SFX added (TASK-030B)
+
+**Music:** `background.mp3` replaced by the user with a texture-only pad/drone track (116.036s, was 224.424s; loops ~2.2x, seams at frames 3481 and 6962). **Source/license: not yet recorded — the user has not supplied it; the file has no embedded tags. Must be filled in before final release.** Ducking constants in `defaultDuckingConfig` lowered: resting 0.10 -> 0.06, ducked 0.04 -> 0.02 (attack/release/fades unchanged).
+
+**Accent SFX (first pass, pending human approval):** 7 placements in `redisAccentSfx` (`episode.config.ts`) — 3 pop, 2 click, 2 ding, EN only. Source files are `.wav` (not `.mp3` as the task text said) in `narration/audio/sfx/`, copied to `public/episodes/001-redis/audio/sfx/`. Volumes 0.25 (pop/click), 0.20 (ding). Source/license of the SFX files also not recorded. Mix quality not confirmed by ear. See `feedbacks/TASK-030B.md`.
